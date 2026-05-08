@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Forge OS FAQ – Answers to common questions about features, privacy, and setup.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="assets/forge_logo.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<title>Forge OS FAQ</title>
+<script>(()=>{const key='oc-theme';const saved=localStorage.getItem(key);const theme=saved==='light'||saved==='dark'?saved:'dark';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme})();</script>
+<link rel="stylesheet" href="assets/Layout.CwMxruYy.css">
+<style>
+body { font-family: 'Satoshi', sans-serif; line-height: 1.6; color: var(--text-primary); }
+.container { max-width: 900px; margin: 0 auto; padding: 3rem 1rem; }
+h1 { font-family: 'Clash Display', sans-serif; font-size: 2.5rem; margin-bottom: 2rem; }
+.faq-item { background: var(--card-bg); padding: 1.5rem; margin-bottom: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+.faq-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.faq-item h3 { margin: 0 0 0.5rem 0; font-family: 'Clash Display', sans-serif; font-size: 1.2rem; color: var(--accent); }
+.faq-item p { margin: 0; color: var(--text-secondary); display: none; }
+.faq-item.open p { display: block; }
+.faq-item::before { content: '▶ '; display: inline-block; margin-right: 0.5rem; transition: transform 0.2s; }
+.faq-item.open::before { transform: rotate(90deg); }
+.theme-toggle { position: fixed; top: 1rem; right: 1rem; background: var(--card-bg); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; z-index: 1000; }
+.back-link { display: inline-block; margin-bottom: 2rem; color: var(--accent); text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">🌓</button>
+
+<div class="container">
+  <a href="index.html" class="back-link">← Back to Home</a>
+  
+  <h1>Frequently Asked Questions</h1>
+
+  <div class="faq-item">
+    <h3>What is Forge OS?</h3>
+    <p>Forge OS is an on-device, agentic Android operating-system layer for Large Language Models. It provides a complete environment for AI agents to execute tasks, manage files, automate workflows, and interact with your device—all running locally with no server.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>What are the system requirements?</h3>
+    <p>Forge OS requires Android 26 or higher (API 26+). We recommend Android 34+ for best performance. You'll need at least 2GB of RAM and 500MB of free storage. The app runs on 64-bit ARM processors.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Which LLM providers does Forge OS support?</h3>
+    <p>Forge OS works with OpenAI, Anthropic, Groq, Google Gemini, OpenRouter, xAI, DeepSeek, Mistral, Together, Cerebras, and local Ollama. You can add multiple providers and set up a fallback chain so if one provider fails, the agent automatically tries the next one.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Is my data private?</h3>
+    <p>Yes. Everything runs on your device. Your API keys are encrypted on-device using EncryptedSharedPreferences. Memory, files, and conversation history are stored locally. No data is sent to our servers. You're responsible for your LLM provider's privacy policy.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Can I use Forge OS offline?</h3>
+    <p>Forge OS requires an internet connection to communicate with your LLM provider. However, it's designed to keep working on flaky networks and will retry automatically. Local Ollama support allows you to run models entirely on-device if you have sufficient resources.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>What Python version is included?</h3>
+    <p>Forge OS includes Python 3.11 via Chaquopy. Pre-installed packages include numpy, pandas, pillow, requests, beautifulsoup4, and many others. You can execute Python scripts with timeouts and captured output.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Can I install custom Python packages?</h3>
+    <p>The pre-installed packages cover most common use cases. For additional packages, you can create plugins or use the agent's Python execution environment. Some packages may not work on Android due to platform limitations.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>What is the memory system?</h3>
+    <p>Forge OS uses a three-tier memory architecture: working memory (current conversation), daily memory (today's events), and long-term memory (semantic embeddings). The agent learns to write important information to memory and search it before research to avoid recomputing things.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>How do I schedule tasks?</h3>
+    <p>Use plain-English syntax like "every 30 m" or "daily at 9 am". Alarms support actions: NOTIFY (send notification), RUN_TOOL (execute a tool), RUN_PYTHON (run Python code), or PROMPT_AGENT (run a prompt through the agent loop). Every fire is logged.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>What are plugins?</h3>
+    <p>Plugins are Python packages (.fp or .zip files) that extend the agent's tool surface. You can install them from the Plugins screen or have the agent create new plugins mid-loop. Plugins survive app upgrades.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>What is MCP?</h3>
+    <p>MCP (Model Context Protocol) is a standard for connecting AI agents to external tools and resources. Forge OS includes an MCP client so you can connect to MCP servers and import their tools. Configure in Settings → Tools → MCP.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>What is Companion mode?</h3>
+    <p>Companion mode is a warmer, everyday conversation mode with persona, episodic memory, and safety features. It includes crisis-aware responses, dependency monitoring, real-world nudges (opt-in), and daily token budgets. All data is stored locally.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Is Companion mode safe?</h3>
+    <p>Yes. Companion mode includes safeguards against romantic/sexual content and dependency language. It has region-aware crisis lines, dependency monitoring, and memory transparency controls. You can delete all Companion data at any time.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Can other apps use Forge OS?</h3>
+    <p>Yes. Forge OS exposes a permission-gated AIDL interface so other Android apps can call it as an on-device LLM service.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Does Forge OS support git?</h3>
+    <p>Yes. Forge OS includes first-class git tools (init, add, commit, branch, log, diff, push, pull, clone) backed by JGit. Personal access tokens are stored in encrypted memory; HTTPS only.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>How do I track costs?</h3>
+    <p>Forge OS includes a cost meter that tracks token and USD spend per call, session, and lifetime. Optional Compact Mode shrinks prompts to reduce costs.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>What permissions does Forge OS need?</h3>
+    <p>Forge OS requests: SCHEDULE_EXACT_ALARM (for alarms), POST_NOTIFICATIONS (for notifications), and file access (for the workspace). All permissions are optional and can be managed in Settings.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Is Forge OS open source?</h3>
+    <p>Yes. Forge OS is available on GitHub under the MIT license. You can review the code, contribute, or build your own version.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>How do I report bugs?</h3>
+    <p>Report issues on the GitHub repository: <a href="https://github.com/thekingsmediastudio/forge-os/issues" target="_blank">github.com/thekingsmediastudio/forge-os/issues</a></p>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.addEventListener('click', function() {
+    this.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>

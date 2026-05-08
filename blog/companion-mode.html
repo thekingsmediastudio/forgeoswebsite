@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Why We Built Safety Into Companion Mode Before Shipping — Forge OS Blog">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="../assets/forge_logo.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<title>Why We Built Safety Into Companion Mode Before Shipping — Forge OS Blog</title>
+<script>(()=>{const key='oc-theme';const saved=localStorage.getItem(key);const theme=saved==='light'||saved==='dark'?saved:'dark';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme})();</script>
+<link rel="stylesheet" href="../assets/Layout.CwMxruYy.css">
+<style>
+body { font-family: 'Satoshi', sans-serif; line-height: 1.8; color: var(--text-primary); }
+.container { max-width: 740px; margin: 0 auto; padding: 2rem 1.5rem; }
+.back-link { display: inline-block; margin-bottom: 2.5rem; color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+.back-link:hover { text-decoration: underline; }
+.post-header { margin-bottom: 2.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; }
+.post-tag { display: inline-block; background: #065f46; color: #fff; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; }
+.post-header h1 { font-family: 'Clash Display', sans-serif; font-size: 2.4rem; line-height: 1.25; margin-bottom: 1rem; }
+.post-meta { color: var(--text-secondary); font-size: 0.9rem; }
+.content h2 { font-family: 'Clash Display', sans-serif; font-size: 1.6rem; margin-top: 2.5rem; margin-bottom: 0.75rem; }
+.content h3 { font-family: 'Clash Display', sans-serif; font-size: 1.25rem; margin-top: 1.75rem; margin-bottom: 0.5rem; }
+.content p { margin-bottom: 1.5rem; color: var(--text-secondary); }
+.content ul, .content ol { margin-left: 1.5rem; margin-bottom: 1.5rem; }
+.content li { margin-bottom: 0.5rem; color: var(--text-secondary); }
+.content code { background: var(--code-bg); color: var(--code-fg); padding: 0.15rem 0.4rem; border-radius: 4px; font-family: monospace; font-size: 0.88em; }
+.callout { background: rgba(245, 158, 11, 0.08); border-left: 4px solid #f59e0b; padding: 1rem 1.25rem; border-radius: 4px; margin-bottom: 1.5rem; }
+.callout p { margin: 0; }
+.theme-toggle { position: fixed; top: 1rem; right: 1rem; background: var(--card-bg); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; z-index: 1000; }
+</style>
+</head>
+<body>
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">🌓</button>
+
+<div class="container">
+  <a href="../blog.html" class="back-link">← Back to Blog</a>
+
+  <header class="post-header">
+    <span class="post-tag">Product</span>
+    <h1>Why We Built Safety Into Companion Mode Before Shipping</h1>
+    <div class="post-meta">April 18, 2026 &nbsp;·&nbsp; 7 min read</div>
+  </header>
+
+  <article class="content">
+    <p>Forge OS started as an automation tool. The agent runs Python, manages files, schedules jobs, browses the web. That's the core use case. But early in development we added a second mode — Friend Mode, now called Companion mode — that's just conversation. Same infrastructure, warmer tone, a persona the user can name.</p>
+
+    <p>The moment we had a working prototype of it, we had to make a decision: ship it as-is, or think carefully about what it could become in people's hands.</p>
+
+    <p>We chose to think carefully. This post explains what we built and why.</p>
+
+    <h2>The problem with AI companions</h2>
+
+    <p>An AI that remembers you, checks in on you, and is always available is genuinely useful. It's also a product that could, if designed carelessly, make people worse off. The research on parasocial relationships with AI is still early, but the direction is clear enough: people form real emotional attachments to conversational AI, and those attachments can become substitutes for human connection in ways that aren't healthy.</p>
+
+    <p>We're not in a position to prevent that entirely. But we can make deliberate choices about what we build and what we don't.</p>
+
+    <div class="callout">
+      <p>The goal was to ship something genuinely useful for everyday conversation without building a product that exploits loneliness. Those two things are compatible — but only if you design for both from the start.</p>
+    </div>
+
+    <h2>What we built</h2>
+
+    <h3>Crisis-aware responses with region-aware lines</h3>
+
+    <p>If someone is in distress, the right response is not a chatbot reply. We built crisis detection that short-circuits the normal response flow when the model's output or the user's message contains signals of distress — self-harm language, expressions of hopelessness, crisis keywords.</p>
+
+    <p>Crisis lines are stored in a JSON resource keyed by ISO 3166-1 country code. The app auto-detects the device locale and resolves the right line at runtime. There's also a custom slot users can fill in themselves. We cover ten countries: US (988), CA (988), GB (116 123 Samaritans), IE, AU, NZ, ZA, IN, DE, FR — plus a global fallback via findahelpline.com.</p>
+
+    <h3>Dependency monitoring</h3>
+
+    <p>We built a dependency monitor that tracks session counts and wall-clock durations per day. If usage crosses configurable thresholds — more than three hours a day for fourteen consecutive days, or more than fifty sessions in a week — the system fires a gentle nudge notification. Not an alarm, not a warning. Just a nudge. It fires at most once every thirty days.</p>
+
+    <p>The thresholds are user-configurable and the monitor can be disabled entirely. The defaults are conservative — we'd rather err on the side of not nudging than nudge someone who's using the app perfectly healthily.</p>
+
+    <h3>No romantic or sexual content</h3>
+
+    <p>Companion mode is not a relationship simulator. We added a post-hoc safety filter (<code>SafetyFilter</code>) that scans every completed assistant reply for two categories: romantic/sexual content and dependency-reinforcing language. Blocked replies are replaced with warm, safe alternatives. We also inject a system-prompt clause on every Companion turn to steer the model away from this content before generation — the filter is a backstop, not the primary defense.</p>
+
+    <h3>Memory transparency</h3>
+
+    <p>Companion mode builds up episodic memory over time — summaries of conversations, facts the user has shared. We think this is genuinely valuable. But it creates an obvious question: what does it know about me, and can I delete it?</p>
+
+    <p>We built a dedicated Companion Memory screen that lists every stored episode (with timestamp, summary, and topics) and every long-term fact. Every item has an individual delete button. There's also a "Forget Everything" button that requires two confirmation taps before wiping all three memory stores. The screen shows a local-only notice — a reminder that all of this data lives on the device and nowhere else.</p>
+
+    <h3>Daily token budget</h3>
+
+    <p>Without a budget, a user who leaves Companion running all day could rack up a significant API bill without realising it. We added a configurable daily token budget (default: 50,000 tokens). When the budget is exhausted, the UI shows a clear indicator and the model stops responding until the next day. The budget resets at midnight.</p>
+
+    <h2>The no-dark-patterns audit</h2>
+
+    <p>Before we shipped Companion mode, we wrote a checklist of every dark pattern we could think of that an AI companion might use — artificial urgency, manufactured emotional dependency, guilt-tripping when the user tries to leave, fake intimacy signals — and verified against the codebase that none of them were present. That document lives in <code>docs/COMPANION_SAFETY_REVIEW.md</code> in the repo. It's public. We wanted to be accountable to it.</p>
+
+    <h2>What we don't know yet</h2>
+
+    <p>This is a v1.0.0-alpha. We haven't had external users yet. We don't know if the dependency thresholds are right. We don't know if the crisis detection catches everything it should. We don't know if the memory transparency screen is enough to make users feel genuinely in control.</p>
+
+    <p>What we do know is that we took these questions seriously before shipping, built real infrastructure around them, and are willing to keep iterating based on what we learn. If you use Companion mode and something feels off — a response that shouldn't have been allowed through, a safety feature that's too aggressive or not aggressive enough — file an issue. We're listening.</p>
+
+    <p>— The Forge OS Team</p>
+  </article>
+</div>
+
+<script>
+function toggleTheme(){
+  const root=document.documentElement;
+  const next=root.dataset.theme==='light'?'dark':'light';
+  root.dataset.theme=next; root.style.colorScheme=next; localStorage.setItem('oc-theme',next);
+}
+(()=>{ const btn=document.querySelector('.theme-toggle'); if(btn) btn.addEventListener('click',toggleTheme); })();
+</script>
+</body>
+</html>

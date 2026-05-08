@@ -1,0 +1,108 @@
+/* Existing styles (preserved) */
+html[data-theme="light"] {
+  --bg-deep: #f8fafc;
+  --bg-mid: #dfe7ef;
+  --bg-light: #ffffff;
+  --text-primary: #0b1220;
+  --text-muted: #555555;
+  --border: #e0e0e0;
+  --svg-primary: #0b1220;
+  --svg-muted: #555555;
+  --coral-bright: #ff8552;
+  --coral-mid: #ff5714;
+  --coral-dark: #d94a06;
+  --flame-color: rgba(255,100,0,0.4);
+}
+html[data-theme="dark"] {
+  --bg-deep: #09101f;
+  --bg-mid: #111927;
+  --bg-light: #1a202c;
+  --text-primary: #f8fafc;
+  --text-muted: #c8c8c8;
+  --border: #d1d1d1;
+  --svg-primary: #f8fafc;
+  --svg-muted: #c8c8c8;
+  --coral-bright: #ff8552;
+  --coral-mid: #ff5714;
+  --coral-dark: #d94a06;
+  --flame-color: rgba(255,80,0,0.6);
+}
+/* Particle container – placed behind UI but above background */
+.stars {
+  display: block;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden; /* keep particles within viewport */
+  z-index: 100; /* ensure visibility on all devices */
+  background: transparent;
+}
+/* Ensure main container sits above particles */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+}
+/* Particle style – larger and brighter */
+.stars .particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--coral-bright);
+  border-radius: 50%;
+  opacity: 1; /* increased visibility */
+  animation: particle-float linear infinite;
+}
+@keyframes particle-float {
+  0% {transform: translateY(0) scale(0.8); opacity: 0;}
+  10% {opacity: 0.8;}
+  100% {transform: translateY(-100vh) scale(1.2); opacity: 0;}
+}
+/* Flame animation at bottom – behind particles */
+.flame {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: var(--flame-color);
+  pointer-events: none;
+  z-index: -1; /* behind particles */
+  filter: blur(30px);
+  opacity: 0.6;
+}
+/* Existing layout styles */
+body {font-family:"Satoshi",sans-serif;margin:0;padding:0;background:var(--bg-deep);color:var(--text-primary);} 
+.hero {text-align:center;margin-bottom:2rem;} 
+.logo-wrapper {margin-bottom:12px;} 
+.logo {max-width:120px;display:block;margin:0 auto;} 
+.title {font-family:"Clash Display",sans-serif;font-size:2.5rem;font-weight:700;margin:0;background:linear-gradient(90deg,var(--coral-bright),var(--coral-mid));-webkit-background-clip:text;-webkit-text-fill-color:transparent;overflow:visible;white-space:nowrap;z-index:200;}
+/* Ensure the full word "Forge" is clearly visible */
+.title-main {font-size:3.5rem;letter-spacing:0.05em;}
+.tagline {font-size:1.2rem;margin-top:0.5rem;color:var(--text-muted);} 
+.description {font-size:1rem;line-weight:1.5;margin-top:1rem;} 
+.latest-post-card {display:block;padding:1rem;border:1px solid var(--border);border-radius:.5rem;text-decoration:none;color:inherit;transition:background .3s;} 
+.latest-post-card:hover {background:var(--bg-mid);} 
+.latest-post-badge {background:var(--coral-mid);color:#fff;padding:.2rem .5rem;border-radius:.3rem;font-size:.8rem;margin-right:.5rem;} 
+.theme-toggle {position:fixed;top:1rem;right:1rem;background:var(--bg-mid);border:none;cursor:pointer;font-size:1.5rem;color:var(--text-primary);z-index:10;border-radius:4px;padding:4px 8px;box-shadow:0 0 4px rgba(0,0,0,0.2);} 
+/* Additional styles... */
+
+/* Ensure theme toggle button is visible */
+.theme-toggle {
+  background: var(--bg-mid);
+  border-radius: 4px;
+  padding: 4px 8px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.2);
+}
+
+/* Mobile adjustments for particles */
+@media (max-width: 640px) {
+  .stars .particle {
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+  }
+  .title-main {font-size:3.2rem;}
+}

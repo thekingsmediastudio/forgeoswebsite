@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Running Python 3.11 on Android Without a Server — Forge OS Blog">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="../assets/forge_logo.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<title>Running Python 3.11 on Android Without a Server — Forge OS Blog</title>
+<script>(()=>{const key='oc-theme';const saved=localStorage.getItem(key);const theme=saved==='light'||saved==='dark'?saved:'dark';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme})();</script>
+<link rel="stylesheet" href="../assets/Layout.CwMxruYy.css">
+<style>
+body { font-family: 'Satoshi', sans-serif; line-height: 1.8; color: var(--text-primary); }
+.container { max-width: 740px; margin: 0 auto; padding: 2rem 1.5rem; }
+.back-link { display: inline-block; margin-bottom: 2.5rem; color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+.back-link:hover { text-decoration: underline; }
+.post-header { margin-bottom: 2.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; }
+.post-tag { display: inline-block; background: #0369a1; color: #fff; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; }
+.post-header h1 { font-family: 'Clash Display', sans-serif; font-size: 2.4rem; line-height: 1.25; margin-bottom: 1rem; }
+.post-meta { color: var(--text-secondary); font-size: 0.9rem; }
+.content h2 { font-family: 'Clash Display', sans-serif; font-size: 1.6rem; margin-top: 2.5rem; margin-bottom: 0.75rem; }
+.content h3 { font-family: 'Clash Display', sans-serif; font-size: 1.25rem; margin-top: 1.75rem; margin-bottom: 0.5rem; }
+.content p { margin-bottom: 1.5rem; color: var(--text-secondary); }
+.content ul, .content ol { margin-left: 1.5rem; margin-bottom: 1.5rem; }
+.content li { margin-bottom: 0.5rem; color: var(--text-secondary); }
+.content code { background: var(--code-bg); color: var(--code-fg); padding: 0.15rem 0.4rem; border-radius: 4px; font-family: monospace; font-size: 0.88em; }
+.content pre { background: var(--code-bg); padding: 1.25rem 1.5rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; }
+.content pre code { background: none; padding: 0; font-size: 0.9em; }
+.callout { background: rgba(59, 130, 246, 0.08); border-left: 4px solid #3b82f6; padding: 1rem 1.25rem; border-radius: 4px; margin-bottom: 1.5rem; }
+.callout p { margin: 0; }
+.theme-toggle { position: fixed; top: 1rem; right: 1rem; background: var(--card-bg); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; z-index: 1000; }
+</style>
+</head>
+<body>
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">🌓</button>
+
+<div class="container">
+  <a href="../blog.html" class="back-link">← Back to Blog</a>
+
+  <header class="post-header">
+    <span class="post-tag">Technical</span>
+    <h1>Running Python 3.11 on Android Without a Server</h1>
+    <div class="post-meta">April 8, 2026 &nbsp;·&nbsp; 9 min read</div>
+  </header>
+
+  <article class="content">
+    <p>One of the core promises of Forge OS is that the agent can write and run Python — not in a cloud sandbox, not via a remote API, but right there on the device. This post explains how we made that work, what the real constraints are, and where the edges of the system are.</p>
+
+    <h2>Why Chaquopy</h2>
+
+    <p>There are a few ways to run Python on Android. You can ship a full CPython interpreter as a native library, use a transpiler like Brython (Python-to-JS, not useful here), or use Chaquopy — a Gradle plugin that bundles CPython and a JNI bridge so you can call Python from Kotlin and vice versa.</p>
+
+    <p>We chose Chaquopy for a few reasons. It supports Python 3.11, which is current enough to matter. It handles the JNI plumbing so we don't have to. It integrates cleanly with the Android build system. And it has a <code>pip</code> block in the Gradle config that lets us declare Python dependencies at build time, which means they're bundled in the APK rather than downloaded at runtime.</p>
+
+    <h2>What we ship</h2>
+
+    <p>The packages bundled in the APK:</p>
+
+    <pre><code>numpy==1.26.2
+pillow==11.0.0
+requests
+beautifulsoup4
+pandas
+lxml
+python-dateutil
+pyyaml
+openpyxl
+xlrd / xlwt
+psutil</code></pre>
+
+    <p>This covers the vast majority of what an agent needs for data processing, web scraping, file manipulation, and system inspection. We deliberately kept the list conservative — every package adds APK size, and we're targeting ARM64 only, which means we can't include packages that require native compilation for other architectures.</p>
+
+    <h2>The ARM64-only decision</h2>
+
+    <p>Forge OS targets <code>arm64-v8a</code> only. We dropped <code>armeabi-v7a</code> (32-bit) and <code>x86_64</code> (emulators). This was a deliberate tradeoff: every modern Android phone sold in the last several years is 64-bit ARM. Supporting 32-bit would roughly double the native library size in the APK for a tiny fraction of real-world devices. Supporting x86_64 would help emulator testing but adds complexity we didn't need at this stage.</p>
+
+    <div class="callout">
+      <p>If you're running Forge OS on an emulator, you'll need an ARM64 system image. x86_64 emulators won't work.</p>
+    </div>
+
+    <h2>AST-based import filtering</h2>
+
+    <p>Giving an LLM the ability to run arbitrary Python on your phone is a significant trust decision. We needed a way to prevent the agent from importing things it shouldn't — <code>subprocess</code>, <code>os.system</code>, socket-level networking outside the approved channels, and so on.</p>
+
+    <p>We built an AST-based import filter that runs before execution. Before any script runs, we parse it with Python's <code>ast</code> module and walk the tree looking for import statements. If the script tries to import a blocked module, execution is refused and the agent gets an error explaining why. The filter runs in Python itself, which means it's fast and doesn't require a separate parsing step.</p>
+
+    <p>The blocked list is configurable via the security policy layer. Users can tighten or loosen it from Settings → Advanced. The agent can't modify the policy — that's a human-only control.</p>
+
+    <h2>Timeouts and output capture</h2>
+
+    <p>Scripts run with a configurable timeout (default: 30 seconds). If a script exceeds the timeout, it's killed and the agent receives a timeout error. This prevents runaway loops from blocking the agent indefinitely.</p>
+
+    <p>stdout and stderr are captured and returned to the agent as part of the tool result. The agent sees exactly what a human would see if they ran the script in a terminal. This is important for debugging — the agent can read error messages and adjust its approach.</p>
+
+    <h2>The "save as skill" feature</h2>
+
+    <p>One of the more useful things we added: if a script works well, the agent can save it as a reusable skill. Skills are named Python functions stored in the workspace that the agent can call by name on future turns without rewriting the code. This is how the agent builds up a library of useful utilities over time.</p>
+
+    <h2>Shell execution</h2>
+
+    <p>In addition to Python, the agent can run shell commands via a separate executor. Shell execution is more restricted than Python — the command runs in a sandboxed environment with a limited PATH and no access to system directories outside the workspace. It's useful for things like <code>grep</code>, <code>find</code>, file manipulation, and calling command-line tools that are available on the device.</p>
+
+    <h2>Where the edges are</h2>
+
+    <p>A few things that don't work and why:</p>
+
+    <ul>
+      <li><strong>Packages with native extensions that require compilation:</strong> Chaquopy can only use pre-built wheels. If a package doesn't have an ARM64 wheel on PyPI, it won't install. This rules out things like <code>scipy</code> (no ARM64 wheel at the version we need) and some ML libraries.</li>
+      <li><strong>Multiprocessing:</strong> Android's process model doesn't support <code>fork()</code> the way Linux does. Scripts that use <code>multiprocessing</code> will fail. Use threading instead.</li>
+      <li><strong>Long-running background scripts:</strong> Scripts run synchronously in the agent loop. If you need something to run in the background, use the cron or alarm system instead of a long-running Python script.</li>
+      <li><strong>GUI libraries:</strong> Tkinter, PyQt, and similar don't work on Android. The agent's output is text; if you need to display something visual, write it to a file and open it in the workspace viewer.</li>
+    </ul>
+
+    <h2>What we expect to work well</h2>
+
+    <p>Data processing with pandas and numpy should be fast and reliable on ARM64. Web scraping with requests and BeautifulSoup works exactly as you'd expect — it's standard Python, nothing Android-specific. File manipulation, YAML/JSON parsing, Excel reading and writing — all solid. psutil gives the agent visibility into device resource usage. The combination covers a wide range of real automation tasks.</p>
+
+    <p>The Python runtime is one of the things we're most confident about. It's not a toy sandbox — it's a real Python 3.11 interpreter running on your phone, with a real package ecosystem, real output capture, and real security controls. That's what makes Forge OS an agent rather than a chatbot.</p>
+
+    <p>— The Forge OS Team</p>
+  </article>
+</div>
+
+<script>
+function toggleTheme(){
+  const root=document.documentElement;
+  const next=root.dataset.theme==='light'?'dark':'light';
+  root.dataset.theme=next; root.style.colorScheme=next; localStorage.setItem('oc-theme',next);
+}
+(()=>{ const btn=document.querySelector('.theme-toggle'); if(btn) btn.addEventListener('click',toggleTheme); })();
+</script>
+</body>
+</html>

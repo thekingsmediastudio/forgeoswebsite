@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Forge OS Privacy Policy">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="assets/forge_logo.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/forge_favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<title>Privacy Policy — Forge OS</title>
+<script>(()=>{const key='oc-theme';const saved=localStorage.getItem(key);const theme=saved==='light'||saved==='dark'?saved:'dark';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme})();</script>
+<link rel="stylesheet" href="assets/Layout.CwMxruYy.css">
+<style>
+body { font-family: 'Satoshi', sans-serif; line-height: 1.6; color: var(--text-primary); }
+.container { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+.page-header { text-align: center; padding: 2rem 0 2.5rem; }
+.page-header h1 { font-family: 'Clash Display', sans-serif; font-size: 2.5rem; margin-bottom: 0.5rem; }
+.back-link { display: inline-block; margin-bottom: 2rem; color: var(--accent); text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
+.content { background: var(--card-bg); padding: 2.5rem; border-radius: 12px; }
+.content h2 { font-family: 'Clash Display', sans-serif; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 0.75rem; color: var(--text-primary); }
+.content h2:first-child { margin-top: 0; }
+.content p { margin-bottom: 1rem; color: var(--text-secondary); }
+.content ul { margin-left: 1.5rem; margin-bottom: 1rem; }
+.content li { margin-bottom: 0.5rem; color: var(--text-secondary); }
+.content a { color: var(--accent); }
+.theme-toggle { position: fixed; top: 1rem; right: 1rem; background: var(--card-bg); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; z-index: 1000; }
+</style>
+</head>
+<body>
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">🌓</button>
+
+<div class="container">
+  <a href="index.html" class="back-link">← Back to Home</a>
+
+  <header class="page-header">
+    <h1>Privacy Policy</h1>
+    <p style="color:var(--text-secondary);">Effective: May 6, 2026</p>
+  </header>
+
+  <div class="content">
+
+    <h2>The short version</h2>
+    <p>Forge OS has no server. Everything — your conversations, memory, files, API keys, and workspace — lives on your device and nowhere else. We do not collect, transmit, or store any of it.</p>
+
+    <h2>What stays on your device</h2>
+    <ul>
+      <li><strong>Conversation history</strong> — stored locally in the app's private storage.</li>
+      <li><strong>Memory (working, daily, long-term)</strong> — stored locally, including semantic embeddings.</li>
+      <li><strong>Workspace files</strong> — stored in the app's sandboxed file area.</li>
+      <li><strong>API keys</strong> — stored in Android's <code>EncryptedSharedPreferences</code>. Never transmitted to us.</li>
+      <li><strong>Companion mode data</strong> — episodes, facts, and session logs stored locally. You can delete individual items or wipe everything from the Companion Memory screen.</li>
+      <li><strong>Alarm and cron logs</strong> — stored locally in <code>workspace/alarms/sessions.json</code>.</li>
+      <li><strong>Browser cookies and history</strong> — stored locally inside the sandbox.</li>
+    </ul>
+
+    <h2>What leaves your device</h2>
+    <p>The only data that leaves your device is what you explicitly send to external services:</p>
+    <ul>
+      <li><strong>LLM provider calls</strong> — prompts and conversation context are sent directly from your device to the provider you configured (OpenAI, Anthropic, Groq, Gemini, etc.). This traffic goes to that provider, not to us. Each provider has its own privacy policy.</li>
+      <li><strong>Headless browser requests</strong> — when the agent browses the web, requests go directly to those websites.</li>
+      <li><strong>MCP servers</strong> — if you connect an MCP server in Settings, data may be sent to that server. You control which servers you connect to.</li>
+      <li><strong>Git operations</strong> — if you use <code>git_push</code> or <code>git_clone</code>, data goes to the remote repository you specified.</li>
+      <li><strong>Plugins</strong> — plugins you install may make network requests. Review a plugin's code before installing it.</li>
+    </ul>
+    <p>We have no visibility into any of the above. We are not a party to those requests.</p>
+
+    <h2>Android permissions</h2>
+    <p>Forge OS declares the following permissions in its manifest. Each is used only for the feature noted:</p>
+    <ul>
+      <li><strong>INTERNET</strong> — LLM provider calls, headless browser, web automation.</li>
+      <li><strong>ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE</strong> — Wi-Fi tools (scan, read SSID, request fresh scan).</li>
+      <li><strong>ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION</strong> — required by Android to read Wi-Fi SSID on API 26+ and scan results on API 28+. Not used for tracking.</li>
+      <li><strong>BLUETOOTH, BLUETOOTH_ADMIN</strong> (API ≤ 30) / <strong>BLUETOOTH_CONNECT, BLUETOOTH_SCAN</strong> (API 31+) — Bluetooth tools.</li>
+      <li><strong>READ_EXTERNAL_STORAGE</strong> (API ≤ 32) / <strong>READ_MEDIA_IMAGES, READ_MEDIA_VIDEO, READ_MEDIA_AUDIO</strong> (API 33+) — workspace file manager and device-to-workspace uploads.</li>
+      <li><strong>FOREGROUND_SERVICE, FOREGROUND_SERVICE_DATA_SYNC</strong> — cron jobs running while the screen is off.</li>
+      <li><strong>POST_NOTIFICATIONS</strong> — alarm and cron job notifications.</li>
+      <li><strong>WAKE_LOCK</strong> — keeps scheduled tasks running.</li>
+      <li><strong>SCHEDULE_EXACT_ALARM, USE_EXACT_ALARM</strong> — Alarms feature.</li>
+      <li><strong>RECEIVE_BOOT_COMPLETED</strong> — reschedules alarms and cron jobs after reboot.</li>
+      <li><strong>QUERY_ALL_PACKAGES</strong> — Android Controller tool (enumerate installed apps).</li>
+    </ul>
+    <p>All permissions are declared in the manifest. Runtime permissions are requested only when you use the relevant feature and can be revoked in Android Settings → Apps → Forge OS → Permissions.</p>
+
+    <h2>Deleting your data</h2>
+    <p>All data is local, so you are always in control:</p>
+    <ul>
+      <li>Clear individual memory entries from the Memory screen or Companion Memory screen.</li>
+      <li>Delete workspace files from the Workspace screen.</li>
+      <li>Wipe all app data via Android Settings → Apps → Forge OS → Clear Data.</li>
+      <li>Uninstalling the app removes everything.</li>
+    </ul>
+
+    <h2>Children</h2>
+    <p>Forge OS is not directed at children under 13. We do not knowingly collect information from children.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>If we make material changes, we will update this page and note the new effective date. Continued use after a change constitutes acceptance.</p>
+
+    <h2>Contact</h2>
+    <p>Questions or concerns? Open an issue on
+      <a href="https://github.com/thekingsmediastudio/forge-os/issues" target="_blank">GitHub</a>.
+    </p>
+
+  </div>
+</div>
+
+<script>
+function toggleTheme(){
+  const root=document.documentElement;
+  const next=root.dataset.theme==='light'?'dark':'light';
+  root.dataset.theme=next; root.style.colorScheme=next; localStorage.setItem('oc-theme',next);
+}
+(()=>{ const btn=document.querySelector('.theme-toggle'); if(btn) btn.addEventListener('click',toggleTheme); })();
+</script>
+</body>
+</html>

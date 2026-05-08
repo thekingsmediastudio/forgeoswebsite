@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="How We Built a Three-Tier Memory System for a Mobile AI Agent — Forge OS Blog">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="../assets/forge_logo.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<title>How We Built a Three-Tier Memory System for a Mobile AI Agent — Forge OS Blog</title>
+<script>(()=>{const key='oc-theme';const saved=localStorage.getItem(key);const theme=saved==='light'||saved==='dark'?saved:'dark';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme})();</script>
+<link rel="stylesheet" href="../assets/Layout.CwMxruYy.css">
+<style>
+body { font-family: 'Satoshi', sans-serif; line-height: 1.8; color: var(--text-primary); }
+.container { max-width: 740px; margin: 0 auto; padding: 2rem 1.5rem; }
+.back-link { display: inline-block; margin-bottom: 2.5rem; color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+.back-link:hover { text-decoration: underline; }
+.post-header { margin-bottom: 2.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; }
+.post-tag { display: inline-block; background: #0369a1; color: #fff; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; }
+.post-header h1 { font-family: 'Clash Display', sans-serif; font-size: 2.4rem; line-height: 1.25; margin-bottom: 1rem; }
+.post-meta { color: var(--text-secondary); font-size: 0.9rem; }
+.content h2 { font-family: 'Clash Display', sans-serif; font-size: 1.6rem; margin-top: 2.5rem; margin-bottom: 0.75rem; }
+.content h3 { font-family: 'Clash Display', sans-serif; font-size: 1.25rem; margin-top: 1.75rem; margin-bottom: 0.5rem; }
+.content p { margin-bottom: 1.5rem; color: var(--text-secondary); }
+.content ul, .content ol { margin-left: 1.5rem; margin-bottom: 1.5rem; }
+.content li { margin-bottom: 0.5rem; color: var(--text-secondary); }
+.content code { background: var(--code-bg); color: var(--code-fg); padding: 0.15rem 0.4rem; border-radius: 4px; font-family: monospace; font-size: 0.88em; }
+.content pre { background: var(--code-bg); padding: 1.25rem 1.5rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; }
+.content pre code { background: none; padding: 0; font-size: 0.9em; }
+.tier-box { border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+.tier-box h3 { margin-top: 0; }
+.theme-toggle { position: fixed; top: 1rem; right: 1rem; background: var(--card-bg); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; z-index: 1000; }
+</style>
+</head>
+<body>
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">🌓</button>
+
+<div class="container">
+  <a href="../blog.html" class="back-link">← Back to Blog</a>
+
+  <header class="post-header">
+    <span class="post-tag">Technical</span>
+    <h1>How We Built a Three-Tier Memory System for a Mobile AI Agent</h1>
+    <div class="post-meta">April 28, 2026 &nbsp;·&nbsp; 8 min read</div>
+  </header>
+
+  <article class="content">
+    <p>The hardest part of building a persistent AI agent isn't the agent loop — it's memory. An LLM has no state between calls. Every turn starts from zero unless you explicitly hand it context. On a phone, you can't just dump everything into the context window: tokens cost money, latency matters, and the window has a hard ceiling anyway.</p>
+
+    <p>We needed a memory system that was fast to read, cheap to query, and smart enough to surface the right things at the right time. After a few failed attempts, we landed on three tiers. Here's how each one works and why we made the tradeoffs we did.</p>
+
+    <h2>The problem with a single store</h2>
+
+    <p>Our first attempt was a flat key-value store. The agent could call <code>memory_store(key, value)</code> and <code>memory_recall(key)</code>. It worked for simple things — "remember my name is Alex" — but fell apart immediately for anything richer. The agent had no way to find related memories without knowing the exact key. It couldn't search. It couldn't reason about what it already knew before starting a research task.</p>
+
+    <p>We also noticed a temporal problem. Something the agent learned five minutes ago is very different from something it learned three weeks ago. Recency matters. A flat store treats everything the same.</p>
+
+    <h2>The three tiers</h2>
+
+    <div class="tier-box">
+      <h3>Tier 1 — Working memory</h3>
+      <p>The current conversation context. This is just the message history passed to the model on each turn. It's ephemeral by design — it exists for the duration of a session and nothing more. The agent loop manages it automatically; there's no explicit API for it.</p>
+      <p>We keep working memory lean. Long conversations get summarized rather than truncated, so the model always has a coherent picture of what's happened in the current session without blowing the context window.</p>
+    </div>
+
+    <div class="tier-box">
+      <h3>Tier 2 — Daily memory</h3>
+      <p>A rolling log of events, findings, and facts from the current day. When the agent completes a meaningful task — finishes a research run, executes a script, scrapes a page — it writes a structured entry to daily memory. Entries include a timestamp, a summary, and any key facts extracted.</p>
+      <p>Daily memory is injected into the system prompt at the start of each session. It's how the agent knows "this morning I already looked up X" without you having to tell it. At the end of each day, important entries are promoted to long-term memory and the daily log is cleared.</p>
+    </div>
+
+    <div class="tier-box">
+      <h3>Tier 3 — Long-term semantic memory</h3>
+      <p>A vector embedding store. When the agent writes to long-term memory, the text is embedded and stored alongside the raw content. Retrieval is semantic: the agent calls <code>semantic_recall_facts(query)</code> and gets back the most relevant entries by cosine similarity, not keyword match.</p>
+      <p>This is where durable facts live: user preferences, project context, research findings worth keeping, things the user has explicitly asked the agent to remember. It persists across days, weeks, and app restarts.</p>
+    </div>
+
+    <h2>Teaching the agent to use memory correctly</h2>
+
+    <p>Having the infrastructure isn't enough. An LLM won't use memory tools unless you explicitly tell it to — and even then, it'll forget to half the time. We added two hard rules to the system prompt:</p>
+
+    <ul>
+      <li><strong>Aggressive writes:</strong> after any meaningful result — a research finding, a completed script, a user preference — call <code>memory_store</code> so the next turn can reuse it.</li>
+      <li><strong>Aggressive reads:</strong> before starting any research task, call <code>semantic_recall_facts</code> to check what's already known. Don't recompute things you already have.</li>
+    </ul>
+
+    <p>These two rules alone cut redundant API calls significantly in our testing. The agent stopped re-researching things it had already found and started building on prior work instead of starting from scratch every time.</p>
+
+    <h2>The embedding problem on Android</h2>
+
+    <p>Running a full embedding model on-device is expensive — both in APK size and inference time. We needed something that worked offline but was also accurate when online. We ended up with a two-path approach.</p>
+
+    <p>The primary path calls your configured provider's embedding API (default: <code>text-embedding-3-small</code> via OpenAI). When the remote model is unreachable — no key, no network, rate-limited — the system falls back to a deterministic 256-dimensional character-trigram vector computed entirely on-device. Both paths produce L2-normalised vectors. The system tracks which facts were embedded locally vs remotely and upgrades local embeddings to remote ones lazily when the network comes back.</p>
+
+    <p>The practical implication: embedding writes do cost tokens when you're online. The cost is small — a few hundred tokens per memory entry — but it's real. The offline fallback means the app keeps working without a connection; it just uses a less semantically rich representation until it can sync.</p>
+
+    <h2>What we got wrong during development</h2>
+
+    <p>The first version of daily memory was too verbose. The agent would write multi-paragraph entries for simple tasks, and by mid-session the daily log was too long to inject into the system prompt without eating the context window. We added a summarization step: entries are compressed to two or three sentences before being stored, with the full content available on explicit recall.</p>
+
+    <p>We also underestimated how much the agent would write to long-term memory if left unconstrained. In development, stores accumulated thousands of entries quickly, most of them low-value. We added a relevance threshold — entries below a certain confidence score don't get promoted from daily to long-term — and that cleaned things up considerably.</p>
+
+    <h2>Where it stands</h2>
+
+    <p>The three-tier system is the architecture we shipped with. The agent builds up context over time, remembers project details and user preferences, and can find relevant memories even when the query doesn't match the exact wording of what was stored. The semantic search is meaningfully better than keyword matching for the kinds of things people actually ask about.</p>
+
+    <p>It's not perfect — no memory system is. We expect to learn a lot from real usage about what the right defaults are, how often the daily log fills up, and whether the relevance threshold for long-term promotion is calibrated correctly. But the architecture is sound and the tradeoffs are deliberate.</p>
+
+    <p>— The Forge OS Team</p>
+  </article>
+</div>
+
+<script>
+function toggleTheme(){
+  const root=document.documentElement;
+  const next=root.dataset.theme==='light'?'dark':'light';
+  root.dataset.theme=next; root.style.colorScheme=next; localStorage.setItem('oc-theme',next);
+}
+(()=>{ const btn=document.querySelector('.theme-toggle'); if(btn) btn.addEventListener('click',toggleTheme); })();
+</script>
+</body>
+</html>

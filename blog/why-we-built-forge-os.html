@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Why We Built an AI Agent That Lives on Your Phone — Forge OS Blog">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="../assets/forge_logo.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<title>Why We Built an AI Agent That Lives on Your Phone — Forge OS Blog</title>
+<script>(()=>{const key='oc-theme';const saved=localStorage.getItem(key);const theme=saved==='light'||saved==='dark'?saved:'dark';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme})();</script>
+<link rel="stylesheet" href="../assets/Layout.CwMxruYy.css">
+<style>
+body { font-family: 'Satoshi', sans-serif; line-height: 1.8; color: var(--text-primary); }
+.container { max-width: 740px; margin: 0 auto; padding: 2rem 1.5rem; }
+.back-link { display: inline-block; margin-bottom: 2.5rem; color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+.back-link:hover { text-decoration: underline; }
+.post-header { margin-bottom: 2.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; }
+.post-tag { display: inline-block; background: #7c3aed; color: #fff; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; }
+.post-header h1 { font-family: 'Clash Display', sans-serif; font-size: 2.4rem; line-height: 1.25; margin-bottom: 1rem; }
+.post-meta { color: var(--text-secondary); font-size: 0.9rem; }
+.content h2 { font-family: 'Clash Display', sans-serif; font-size: 1.6rem; margin-top: 2.5rem; margin-bottom: 0.75rem; }
+.content p { margin-bottom: 1.5rem; color: var(--text-secondary); }
+.content ul, .content ol { margin-left: 1.5rem; margin-bottom: 1.5rem; }
+.content li { margin-bottom: 0.5rem; color: var(--text-secondary); }
+.content code { background: var(--code-bg); color: var(--code-fg); padding: 0.15rem 0.4rem; border-radius: 4px; font-family: monospace; font-size: 0.88em; }
+.theme-toggle { position: fixed; top: 1rem; right: 1rem; background: var(--card-bg); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; z-index: 1000; }
+</style>
+</head>
+<body>
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">🌓</button>
+
+<div class="container">
+  <a href="../blog.html" class="back-link">← Back to Blog</a>
+
+  <header class="post-header">
+    <span class="post-tag">Founder</span>
+    <h1>Why We Built an AI Agent That Lives on Your Phone</h1>
+    <div class="post-meta">May 6, 2026 &nbsp;·&nbsp; 6 min read</div>
+  </header>
+
+  <article class="content">
+    <p>I've been obsessed with automation for a long time. Not the kind where you drag blocks around in a no-code tool and hope the API doesn't change — the kind where you describe what you want and something actually goes and does it. When LLMs got good enough to reason about multi-step tasks, I thought we'd finally have that. We didn't.</p>
+
+    <p>Every AI assistant I tried had the same shape: a chat window, a context window, and nothing else. You'd ask it to research something, it would give you a summary, and then you'd close the app and the whole thing evaporated. No memory of what you'd found. No files. No way to say "do this every morning." No way to run actual code. Just text in, text out, forget everything.</p>
+
+    <p>That's not an agent. That's autocomplete with a personality.</p>
+
+    <h2>The thing I actually wanted</h2>
+
+    <p>I wanted something that could keep working while I wasn't looking. Research a topic overnight, save the results, cross-reference them with things it already knew about me, and have a summary ready when I woke up. I wanted it to be able to write and run Python — not in some sandboxed cloud notebook, but right there on the device, with access to my files. I wanted it to remember that I prefer concise answers, that I'm working on a specific project, that last Tuesday it found a paper I should read.</p>
+
+    <p>I also wanted it to be private. The idea of routing every thought and task through a company's servers — where it gets logged, analyzed, and used to train the next model — felt wrong for the kind of personal assistant I had in mind.</p>
+
+    <p>So I built Forge OS.</p>
+
+    <h2>Why Android, why on-device</h2>
+
+    <p>The phone is the most personal computer most people own. It's always on, always connected, always with you. It has sensors, a camera, a microphone, a file system, and a notification system. It can run background jobs. It survives reboots. It's the right substrate for a persistent agent.</p>
+
+    <p>On-device also means the data stays on the device. Your API keys are encrypted in EncryptedSharedPreferences. Your memory, your files, your conversation history — none of it touches our servers, because we don't have servers in the loop. You bring your own provider key (OpenAI, Anthropic, Groq, Gemini, or a dozen others), and the traffic goes directly from your phone to that provider. We're just the runtime.</p>
+
+    <h2>What "agentic" actually means in practice</h2>
+
+    <p>Forge OS runs a ReAct-style agent loop. The model reasons about what to do, picks a tool, executes it, observes the result, and decides what to do next — all in a tight loop that keeps going until the task is done or the model decides it's stuck. The tools are real: a Python 3.11 runtime, a headless browser, a file system with snapshots, a cron scheduler, git, an MCP client, and more.</p>
+
+    <p>The memory system is three-tiered. Working memory is the current conversation. Daily memory is a rolling log of today's events and findings. Long-term memory is a semantic embedding store — the agent is explicitly instructed to write to it after meaningful results and search it before doing research, so it doesn't recompute things it already knows.</p>
+
+    <p>The scheduler means the agent can work while the screen is off. You can say "every morning at 7am, check the top three stories in my RSS feeds and summarize them" and it will just do that, indefinitely, logging every run.</p>
+
+    <h2>The part we didn't fully anticipate</h2>
+
+    <p>When we were building the automation side — Python, cron, browser, git — we added a conversation mode almost as an afterthought. Same infrastructure, warmer tone, a persona the user can name. We figured it would be a lightweight complement to the task-execution side.</p>
+
+    <p>The more we thought about it, the more we realised that "an agent that remembers you" is a fundamentally different product from "an agent that runs your scripts," even if the underlying infrastructure is the same. People don't just want a tool that executes tasks. They want something that knows their context, their preferences, their ongoing projects. That's closer to a companion than a command-line interface.</p>
+
+    <p>That realisation is what pushed us to build Companion mode properly — with episodic memory, safety features, crisis-aware responses, and a no-dark-patterns audit — rather than just shipping a chatbot with a friendly skin. It's not the flashiest engineering, but it's the work we're most careful about.</p>
+
+    <h2>Where we are</h2>
+
+    <p>Forge OS v1.0.0-alpha is out. All the core features are in: memory, Python runtime, headless browser, workspace, cron, alarms, plugins, MCP client, sub-agents, Companion mode, git, cost meter, external API for other Android apps. We've cleared the safety review for Companion mode. The app runs on Android 26+ and targets API 34.</p>
+
+    <p>It's alpha software. There are rough edges. But the core loop works, and it works on-device, and it keeps working when the screen is off. That's the thing I wanted to build, and it exists now.</p>
+
+    <p>If you want to try it, grab the APK from GitHub. If you find bugs, file issues. If you build something interesting with it, I'd genuinely like to hear about it.</p>
+
+    <p>— The Forge OS Team</p>
+  </article>
+</div>
+
+<script>
+function toggleTheme(){
+  const root=document.documentElement;
+  const next=root.dataset.theme==='light'?'dark':'light';
+  root.dataset.theme=next; root.style.colorScheme=next; localStorage.setItem('oc-theme',next);
+}
+(()=>{ const btn=document.querySelector('.theme-toggle'); if(btn) btn.addEventListener('click',toggleTheme); })();
+</script>
+</body>
+</html>

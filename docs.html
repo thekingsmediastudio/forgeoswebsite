@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Forge OS Documentation – Complete reference for every feature: memory, Python, browser, workspace, scheduling, plugins, MCP, sub-agents, Android tools, Companion mode, git, and more.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="assets/forge_logo.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<title>Forge OS Documentation</title>
+<script>(()=>{const key='oc-theme';const saved=localStorage.getItem(key);const theme=saved==='light'||saved==='dark'?saved:'dark';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme})();</script>
+<link rel="stylesheet" href="assets/Layout.CwMxruYy.css">
+<style>
+body{font-family:'Satoshi',sans-serif;line-height:1.6;color:var(--text-primary)}
+.docs-container{display:flex;max-width:1400px;margin:0 auto}
+.sidebar{width:280px;background:var(--card-bg);padding:2rem 1.5rem;height:100vh;position:sticky;top:0;overflow-y:auto;border-right:1px solid var(--border-color);flex-shrink:0}
+.sidebar h2{font-family:'Clash Display',sans-serif;font-size:1.3rem;margin-bottom:1rem}
+.sidebar nav ul{list-style:none;padding:0}
+.sidebar nav li{margin-bottom:.3rem}
+.sidebar nav a{color:var(--text-secondary);text-decoration:none;display:block;padding:.4rem .75rem;border-radius:6px;font-size:.9rem;transition:all .2s}
+.sidebar nav a:hover,.sidebar nav a.active{background:var(--accent);color:#fff}
+.sidebar .section-title{font-weight:600;color:var(--text-primary);margin-top:1.25rem;margin-bottom:.4rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px}
+.content{flex:1;padding:2rem 3rem;max-width:900px;min-width:0}
+.content h1{font-family:'Clash Display',sans-serif;font-size:2.5rem;margin-bottom:1rem}
+.content h2{font-family:'Clash Display',sans-serif;font-size:1.8rem;margin-top:2.5rem;margin-bottom:.75rem;padding-top:.5rem;border-top:1px solid var(--border-color)}
+.content h3{font-family:'Clash Display',sans-serif;font-size:1.3rem;margin-top:1.75rem;margin-bottom:.5rem}
+.content p{margin-bottom:1.25rem;color:var(--text-secondary);line-height:1.8}
+.content ul,.content ol{margin-left:1.5rem;margin-bottom:1.25rem}
+.content li{margin-bottom:.4rem;color:var(--text-secondary)}
+.content code{background:var(--code-bg);color:var(--code-fg);padding:.15rem .45rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.88em}
+.content pre{background:var(--code-bg);padding:1.25rem 1.5rem;border-radius:8px;overflow-x:auto;margin-bottom:1.25rem}
+.content pre code{background:none;padding:0;font-size:.9em}
+.note{background:rgba(59,130,246,.1);border-left:4px solid #3b82f6;padding:1rem 1.25rem;margin-bottom:1.25rem;border-radius:4px}
+.warning{background:rgba(245,158,11,.1);border-left:4px solid #f59e0b;padding:1rem 1.25rem;margin-bottom:1.25rem;border-radius:4px}
+.tip{background:rgba(16,185,129,.1);border-left:4px solid #10b981;padding:1rem 1.25rem;margin-bottom:1.25rem;border-radius:4px}
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.4rem;margin-bottom:1.25rem}
+.tool-tag{background:var(--code-bg);color:var(--code-fg);padding:.25rem .6rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.82em;display:block}
+.theme-toggle{position:fixed;top:1rem;right:1rem;background:var(--card-bg);border:none;padding:.5rem 1rem;border-radius:6px;cursor:pointer;font-size:1.2rem;z-index:1000}
+.back-link{display:inline-block;margin-bottom:2rem;color:var(--accent);text-decoration:none}
+.back-link:hover{text-decoration:underline}
+@media(max-width:768px){.docs-container{flex-direction:column}.sidebar{width:100%;height:auto;position:relative}}
+</style>
+</head>
+<body>
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">🌓</button>
+<div class="docs-container">
+<aside class="sidebar">
+<h2>Documentation</h2>
+<nav><ul>
+<li class="section-title">Getting Started</li>
+<li><a href="#introduction" class="active">Introduction</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#setup">Provider Setup</a></li>
+<li><a href="#architecture">Architecture</a></li>
+<li class="section-title">Memory</li>
+<li><a href="#memory-working">Working Memory</a></li>
+<li><a href="#memory-daily">Daily Memory</a></li>
+<li><a href="#memory-longterm">Long-term Memory</a></li>
+<li><a href="#memory-skills">Skills</a></li>
+<li class="section-title">Code Execution</li>
+<li><a href="#python">Python Runtime</a></li>
+<li><a href="#shell">Shell Executor</a></li>
+<li><a href="#sandbox">Sandbox &amp; Security</a></li>
+<li class="section-title">Browser</li>
+<li><a href="#browser-headless">Headless Browser</a></li>
+<li><a href="#browser-onscreen">On-screen Browser</a></li>
+<li><a href="#browser-downloads">Downloads</a></li>
+<li class="section-title">Workspace</li>
+<li><a href="#workspace">File Manager</a></li>
+<li><a href="#snapshots">Snapshots</a></li>
+<li class="section-title">Scheduling</li>
+<li><a href="#cron">Cron Jobs</a></li>
+<li><a href="#alarms">Alarms</a></li>
+<li class="section-title">Extensibility</li>
+<li><a href="#plugins">Plugins</a></li>
+<li><a href="#mcp">MCP Client</a></li>
+<li><a href="#subagents">Sub-agents</a></li>
+<li><a href="#channels">Channels (Telegram)</a></li>
+<li class="section-title">Android Tools</li>
+<li><a href="#android-device">Device Info &amp; Control</a></li>
+<li><a href="#android-contacts">Contacts, SMS, Calendar</a></li>
+<li><a href="#android-media">Media &amp; Clipboard</a></li>
+<li><a href="#android-network">Wi-Fi &amp; Bluetooth</a></li>
+<li class="section-title">Advanced</li>
+<li><a href="#companion">Companion Mode</a></li>
+<li><a href="#git">Git Integration</a></li>
+<li><a href="#http">HTTP &amp; Search</a></li>
+<li><a href="#notifications">Notifications</a></li>
+<li><a href="#vision">Vision</a></li>
+<li><a href="#projects">Projects &amp; Server</a></li>
+<li><a href="#external-api">External API</a></li>
+<li><a href="#cost-meter">Cost Meter</a></li>
+<li><a href="#security">Permissions &amp; Security</a></li>
+<li><a href="#config">Config System</a></li>
+<li class="section-title">Resources</li>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="https://github.com/thekingsmediastudio/forge-os" target="_blank">GitHub</a></li>
+</ul></nav>
+</aside>
+<main class="content">
+<a href="index.html" class="back-link">← Back to Home</a>
+
+<h1 id="introduction">Introduction</h1>
+<p>Forge OS is an on-device, agentic Android operating-system layer for Large Language Models. You bring your own provider key and the app gives the model a persistent memory system, a sandboxed file workspace, a real Python 3.11 runtime, a headless browser, schedulable jobs, plugins, sub-agents, MCP client, Android device tools, Companion mode, git integration, and more — all running on the phone with no server.</p>
+<p>Built on Jetpack Compose, Hilt, and Chaquopy. Designed to keep working on flaky networks, dead provider keys, or while the screen is off. Version: <strong>1.0.0-alpha</strong>.</p>
+
+<h2 id="installation">Installation</h2>
+<p>Requires Android API 26+ (Android 8.0). Targets API 34. Runs on 64-bit ARM (<code>arm64-v8a</code>) only.</p>
+<ol>
+  <li><strong>Download</strong> the APK from <a href="download.html">the download page</a> or <a href="https://github.com/thekingsmediastudio/forge-os/releases" target="_blank">GitHub Releases</a>.</li>
+  <li><strong>Enable unknown sources:</strong> Settings → Security → Install unknown apps.</li>
+  <li><strong>Install</strong> the APK.</li>
+  <li><strong>Grant permissions</strong> when prompted (notifications, exact alarm, storage).</li>
+  <li><strong>Follow the onboarding wizard</strong> to add your first provider key.</li>
+</ol>
+
+<h2 id="setup">Provider Setup</h2>
+<p>Add a key in Settings → Providers. Supported providers:</p>
+<ul>
+  <li>OpenAI</li>
+  <li>Anthropic</li>
+  <li>Groq</li>
+  <li>Google Gemini</li>
+  <li>OpenRouter</li>
+  <li>xAI, DeepSeek, Mistral, Together, Cerebras</li>
+  <li>Local Ollama (self-hosted, no key required)</li>
+  <li>Any OpenAI-compatible custom endpoint</li>
+</ul>
+<p>Keys are stored in <code>EncryptedSharedPreferences</code>. You can add multiple providers and configure a fallback chain in Settings → Model Routing. When the primary provider rate-limits or errors, the agent walks the chain automatically. Optional integrations (Composio, Tavily, Brave Search, RAGFlow) can also be added from Settings.</p>
+<p>The default fallback chain is: Groq (llama-3.3-70b-versatile) → OpenRouter (claude-3.5-sonnet) → Gemini (gemini-2.0-flash).</p>
+
+<h2 id="architecture">Architecture</h2>
+<p>The agent loop (<code>ReActAgent</code>) emits an <code>AgentEvent</code> flow consumed by the UI. Tool calls are routed through <code>ToolRegistry</code>, which dispatches to the appropriate manager. Provider calls go through <code>AiApiManager</code>, which exposes both <code>chat()</code> and <code>chatWithFallback()</code>.</p>
+<pre><code>Compose UI  ←── AgentEvent flow ───  ReActAgent
+    │                                     │
+    │ user prompt                         │ chatWithFallback()
+    ▼                                     ▼
+ToolRegistry  ←── tool calls ───  AiApiManager
+    │
+    ├── MemoryManager · SandboxManager · CronManager · AlarmManager
+    ├── HeadlessBrowser · BrowserSessionManager
+    ├── PluginManager · DelegationManager · McpClient
+    ├── AndroidController · SnapshotManager · ChannelManager
+    └── GitRunner · DownloadManager · AgentNotificationBuilder</code></pre>
+<p>Five main tabs: Chat, Workspace, Browser, Hub, Settings. Companion mode is a separate screen accessible from Hub.</p>
+
+<h2 id="memory-working">Working Memory</h2>
+<p>The current conversation context passed to the model on each turn. Managed automatically. Long conversations are summarised rather than truncated so the model always has a coherent picture without blowing the context window.</p>
+
+<h2 id="memory-daily">Daily Memory</h2>
+<p>A rolling log of events and findings from the current day. Injected into the system prompt at session start so the agent knows what it already did today. Cleared at end of day; important entries are promoted to long-term memory first. Configurable max entries (default: 1000) and compression threshold (default: 800).</p>
+<p>Tools: <code>memory_store</code>, <code>memory_recall</code>, <code>memory_summary</code>.</p>
+
+<h2 id="memory-longterm">Long-term Memory</h2>
+<p>A semantic embedding store backed by <code>LongtermMemory</code> and <code>SemanticFactIndex</code>. Entries are embedded and stored; retrieval is by cosine similarity. Persists across days and app restarts. Default max: 10,000 entries, retention: 90 days. Embeddings use <code>text-embedding-3-small</code> via OpenAI by default (configurable).</p>
+<p>The system prompt explicitly requires:</p>
+<ul>
+  <li><strong>Aggressive writes</strong> — after any meaningful result (research, calculations, user preferences) call <code>memory_store</code>.</li>
+  <li><strong>Aggressive reads</strong> — before any research task call <code>semantic_recall_facts</code> to avoid recomputing known information.</li>
+</ul>
+<p>Tools: <code>memory_store</code>, <code>semantic_recall_facts</code>, <code>memory_store_image</code>, <code>memory_summary</code>.</p>
+
+<h2 id="memory-skills">Skills</h2>
+<p>Completed Python scripts can be saved as named, reusable skills via <code>memory_store_skill</code>. The agent can retrieve and replay them without rewriting the code.</p>
+<p>Tools: <code>memory_store_skill</code>, <code>memory_get_skill</code>, <code>memory_list_skills</code>.</p>
+
+<h2 id="python">Python Runtime</h2>
+<p>Python 3.11 via <a href="https://chaquo.com/chaquopy/" target="_blank">Chaquopy</a>. Pre-installed packages:</p>
+<ul>
+  <li>numpy 1.26.2, pillow 11.0.0</li>
+  <li>requests, beautifulsoup4, lxml</li>
+  <li>pandas, openpyxl, xlrd, xlwt</li>
+  <li>pyyaml, python-dateutil, psutil</li>
+</ul>
+<p>Scripts run with a configurable timeout (default: 30 s). stdout and stderr are captured and returned to the agent. Completed scripts can be saved as skills. An optional remote Python worker URL can be configured for heavy scripts (torch, tensorflow, etc.) that should run off-device.</p>
+<p>Tool: <code>python_run</code>. Remote variant: <code>python_run_remote</code>.</p>
+<div class="note">
+  <strong>ARM64 only.</strong> Packages requiring native compilation for other architectures won't install. <code>multiprocessing.fork()</code> is not supported on Android — use threading instead.
+</div>
+
+<h2 id="shell">Shell Executor</h2>
+<p>Runs shell commands in a sandboxed environment with a limited PATH and no access to system directories outside the workspace. Useful for grep, find, file manipulation, and calling command-line tools available on the device.</p>
+<p>Tool: <code>shell_exec</code> (default timeout: 30 s).</p>
+
+<h2 id="sandbox">Sandbox &amp; Security</h2>
+<p>All code execution goes through <code>SandboxManager</code> and <code>SecurityPolicy</code>:</p>
+<ul>
+  <li>Max file size: 10 MB. Max workspace size: 500 MB.</li>
+  <li>Blocked paths: <code>/etc</code>, <code>/sys</code>, <code>/proc</code>, <code>/dev</code>.</li>
+  <li>AST-based import filter — blocks disallowed Python modules before execution.</li>
+  <li>Per-tool permission checks via <code>PermissionManager</code> before every dispatch.</li>
+  <li>Tool audit log — every call is recorded with timestamp, args, result, and source (agent vs user).</li>
+  <li>Destructive tools (<code>file_delete</code>, <code>shell_exec</code>, <code>git_push</code>, <code>config_write</code>, etc.) require confirmation by default.</li>
+  <li>Settings → Advanced Overrides: add extra blocked hosts, blocked file extensions, blocked config paths. Flip <em>Lock agent out</em> to freeze all <code>permissions.*</code> keys against agent modification.</li>
+</ul>
+
+<h2 id="browser-headless">Headless Browser</h2>
+<p>Agent-controlled browser backed by <code>HeadlessBrowser</code>. Shares a cookie jar with the on-screen browser tab.</p>
+<div class="tool-grid">
+  <span class="tool-tag">browser_navigate</span>
+  <span class="tool-tag">browser_get_html</span>
+  <span class="tool-tag">browser_eval_js</span>
+  <span class="tool-tag">browser_fill_field</span>
+  <span class="tool-tag">browser_click</span>
+  <span class="tool-tag">browser_click_at</span>
+  <span class="tool-tag">browser_type</span>
+  <span class="tool-tag">browser_scroll</span>
+  <span class="tool-tag">browser_set_viewport</span>
+  <span class="tool-tag">browser_screenshot_region</span>
+  <span class="tool-tag">browser_wait_for_selector</span>
+  <span class="tool-tag">browser_get_text</span>
+  <span class="tool-tag">browser_get_attribute</span>
+  <span class="tool-tag">browser_list_links</span>
+  <span class="tool-tag">file_upload_to_browser</span>
+  <span class="tool-tag">web_screenshot</span>
+</div>
+<p><code>browser_set_viewport</code> accepts presets: <code>desktop</code>, <code>laptop</code>, <code>tablet</code>, <code>mobile</code>, or custom width/height/user-agent. <code>browser_screenshot_region</code> accepts a CSS selector or x/y/width/height and saves a PNG to the workspace. <code>file_upload_to_browser</code> opens the on-screen browser's file chooser and picks from the workspace.</p>
+
+<h2 id="browser-onscreen">On-screen Browser</h2>
+<p>A visible browser tab (Browser screen) for interactive use. Shares cookies with the headless browser — log in manually and the agent can then access cookie-gated pages. History and bookmarks are stored locally under <code>workspace/.history</code> and <code>workspace/.cookies</code>.</p>
+<p>Tools: <code>browser_history_list</code>, <code>browser_history_clear</code>, <code>browser_session_new</code>.</p>
+
+<h2 id="browser-downloads">Downloads</h2>
+<p>Two download tools, both stream directly into <code>workspace/downloads/</code>, sniff the MIME type, and return SHA-256 + byte count:</p>
+<ul>
+  <li><code>file_download</code> — open web, no cookies (timeout: 120 s).</li>
+  <li><code>browser_download</code> — cookie-gated pages, uses the shared browser cookie jar (timeout: 120 s).</li>
+</ul>
+
+<h2 id="workspace">File Manager</h2>
+<p>Sandboxed file area with enforced quotas (max 500 MB total, 10 MB per file):</p>
+<div class="tool-grid">
+  <span class="tool-tag">file_read</span>
+  <span class="tool-tag">file_write</span>
+  <span class="tool-tag">file_list</span>
+  <span class="tool-tag">file_delete</span>
+  <span class="tool-tag">workspace_info</span>
+  <span class="tool-tag">workspace_describe</span>
+  <span class="tool-tag">temp_list</span>
+  <span class="tool-tag">temp_clear</span>
+</div>
+<p>The Workspace screen provides a full file manager UI with breadcrumb navigation, sort, search, multi-select, and a file viewer/editor. Upload files from the device via the SAF picker. Pick files from the workspace into the on-screen browser.</p>
+
+<h2 id="snapshots">Snapshots</h2>
+<p>Time-travel your workspace: take a snapshot, browse it, diff against current state, restore. Snapshots are stored under <code>workspace/.snapshots</code>.</p>
+<div class="tool-grid">
+  <span class="tool-tag">snapshot_create</span>
+  <span class="tool-tag">snapshot_list</span>
+  <span class="tool-tag">snapshot_restore</span>
+  <span class="tool-tag">snapshot_delete</span>
+  <span class="tool-tag">system_backup_export</span>
+  <span class="tool-tag">system_backup_import</span>
+</div>
+<p><code>system_backup_export</code> creates a full ZIP backup in <code>workspace/exports/</code>. <code>system_backup_import</code> restores from a backup ZIP.</p>
+
+<h2 id="cron">Cron Jobs</h2>
+<p>Backed by WorkManager. Survive reboots. Max 50 concurrent jobs, max 3 running simultaneously.</p>
+<p>Schedule with plain-English text such as <code>"every 30 m"</code>, <code>"every 2 hours"</code>, <code>"every hour"</code>, <code>"every day"</code>, or <code>"daily at 09:00"</code>. Minimum interval: 5 minutes. Each job has a <code>task_type</code>: <code>PROMPT</code> (run a prompt through the agent), <code>PYTHON</code> (run a script), or <code>TOOL</code> (call a tool). Jobs can specify a model override.</p>
+<div class="tool-grid">
+  <span class="tool-tag">cron_add</span>
+  <span class="tool-tag">cron_list</span>
+  <span class="tool-tag">cron_remove</span>
+  <span class="tool-tag">cron_run_now</span>
+  <span class="tool-tag">cron_history</span>
+</div>
+
+<h2 id="alarms">Alarms</h2>
+<p>Exact-time alarms backed by <code>AlarmManager</code>. Survive reboots. Every fire is recorded to <code>workspace/alarms/sessions.json</code> (200-event ring buffer), visible under Alarms → Sessions.</p>
+<p>Set with <code>alarm_set { label, in_seconds | at_millis, action, payload, repeat_ms? }</code> where <code>action</code> is one of:</p>
+<ul>
+  <li><code>NOTIFY</code> — post a notification</li>
+  <li><code>RUN_TOOL</code> — execute a tool call</li>
+  <li><code>RUN_PYTHON</code> — run a Python script</li>
+  <li><code>PROMPT_AGENT</code> — run a prompt through the full agent loop including tools and the fallback chain</li>
+</ul>
+<div class="tool-grid">
+  <span class="tool-tag">alarm_set</span>
+  <span class="tool-tag">alarm_list</span>
+  <span class="tool-tag">alarm_cancel</span>
+</div>
+
+<h2 id="plugins">Plugins</h2>
+<p>Python packages (<code>.fp</code> or <code>.zip</code>) that add new tools to the agent's tool surface. Plugins survive app upgrades via the plugin exporter.</p>
+<ul>
+  <li><strong>Install from file:</strong> drop a <code>.fp</code> or <code>.zip</code> onto the Plugins screen.</li>
+  <li><strong>Generate mid-loop:</strong> agent calls <code>plugin_create { id, name, description, tool_name, tool_description, python_code }</code>. New tool is callable on the next iteration.</li>
+  <li><strong>Execute:</strong> <code>plugin_execute { plugin_id, tool_name, args }</code>.</li>
+</ul>
+<div class="tool-grid">
+  <span class="tool-tag">plugin_list</span>
+  <span class="tool-tag">plugin_install</span>
+  <span class="tool-tag">plugin_uninstall</span>
+  <span class="tool-tag">plugin_execute</span>
+  <span class="tool-tag">plugin_create</span>
+  <span class="tool-tag">plugin_export_all</span>
+  <span class="tool-tag">plugin_export_list</span>
+  <span class="tool-tag">plugin_restore_missing</span>
+</div>
+
+<h2 id="mcp">MCP Client</h2>
+<p>Connects to Model Context Protocol servers and imports their tools and resources into the agent's tool surface. Configure in Settings → Tools → MCP. Tools appear prefixed with <code>[mcp:server_name]</code>.</p>
+<div class="tool-grid">
+  <span class="tool-tag">mcp_refresh</span>
+  <span class="tool-tag">mcp_list_tools</span>
+  <span class="tool-tag">mcp_call_tool</span>
+</div>
+
+<h2 id="subagents">Sub-agents</h2>
+<p>Spawn focused sub-agents via <code>DelegationManager</code>. Each sub-agent runs the full agent loop with its own context. Max 3 concurrent sub-agents, max depth 1 (no recursive delegation by default). Sub-agents use the global fallback chain.</p>
+<div class="tool-grid">
+  <span class="tool-tag">delegate_task</span>
+  <span class="tool-tag">delegate_batch</span>
+  <span class="tool-tag">delegate_ghost</span>
+  <span class="tool-tag">agents_list</span>
+  <span class="tool-tag">agent_status</span>
+  <span class="tool-tag">agent_cancel</span>
+  <span class="tool-tag">message_bus_publish</span>
+  <span class="tool-tag">message_bus_read</span>
+  <span class="tool-tag">message_bus_topics</span>
+  <span class="tool-tag">plan_and_execute_dag</span>
+</div>
+<p><code>plan_and_execute_dag</code> takes a complex goal, generates a JSON DAG of sub-tasks, and executes them. <code>message_bus_*</code> tools let agents communicate via named topics.</p>
+
+<h2 id="channels">Channels (Telegram)</h2>
+<p>The agent can send and receive messages via Telegram through the Channels system. Each channel has its own session and optional model overrides.</p>
+<div class="tool-grid">
+  <span class="tool-tag">channel_list</span>
+  <span class="tool-tag">channel_send</span>
+  <span class="tool-tag">channel_toggle</span>
+  <span class="tool-tag">channel_add_telegram</span>
+  <span class="tool-tag">telegram_react</span>
+  <span class="tool-tag">telegram_reply</span>
+  <span class="tool-tag">telegram_send_file</span>
+  <span class="tool-tag">telegram_send_voice</span>
+  <span class="tool-tag">telegram_main_chat</span>
+  <span class="tool-tag">telegram_list_chats</span>
+  <span class="tool-tag">telegram_get_allowed_chats</span>
+  <span class="tool-tag">telegram_set_allowed_chats</span>
+  <span class="tool-tag">telegram_allow_chat</span>
+  <span class="tool-tag">telegram_deny_chat</span>
+</div>
+<div class="note">
+  <strong>Note:</strong> Telegram integration requires a Telegram bot token configured in Settings → Channels. The agent controls its own bot — it does not access your personal Telegram account.
+</div>
+
+<h2 id="android-device">Device Info &amp; Control</h2>
+<p>Read device state and perform basic control actions via <code>AndroidController</code>.</p>
+<div class="tool-grid">
+  <span class="tool-tag">android_device_info</span>
+  <span class="tool-tag">android_battery</span>
+  <span class="tool-tag">android_volume</span>
+  <span class="tool-tag">android_set_volume</span>
+  <span class="tool-tag">android_network</span>
+  <span class="tool-tag">android_storage</span>
+  <span class="tool-tag">android_screen</span>
+  <span class="tool-tag">android_snapshot</span>
+  <span class="tool-tag">android_list_apps</span>
+  <span class="tool-tag">android_launch_app</span>
+</div>
+<p><code>android_set_volume</code> and <code>android_launch_app</code> require confirmation by default (configurable in Settings → Advanced).</p>
+
+<h2 id="android-contacts">Contacts, SMS, Calendar</h2>
+<p>Read and write contacts, send/read SMS, and manage calendar events. These tools require the corresponding Android runtime permissions.</p>
+<div class="tool-grid">
+  <span class="tool-tag">contacts_list</span>
+  <span class="tool-tag">contacts_get</span>
+  <span class="tool-tag">contacts_create</span>
+  <span class="tool-tag">contacts_update</span>
+  <span class="tool-tag">sms_list</span>
+  <span class="tool-tag">sms_send</span>
+  <span class="tool-tag">calendar_list_events</span>
+  <span class="tool-tag">calendar_create_event</span>
+  <span class="tool-tag">calendar_delete_event</span>
+</div>
+
+<h2 id="android-media">Media &amp; Clipboard</h2>
+<p>Control media playback and read/write the clipboard.</p>
+<div class="tool-grid">
+  <span class="tool-tag">media_play</span>
+  <span class="tool-tag">media_pause</span>
+  <span class="tool-tag">media_next</span>
+  <span class="tool-tag">media_previous</span>
+  <span class="tool-tag">media_get_info</span>
+  <span class="tool-tag">clipboard_get</span>
+  <span class="tool-tag">clipboard_set</span>
+</div>
+
+<h2 id="android-network">Wi-Fi &amp; Bluetooth</h2>
+<p>Read Wi-Fi state, request scans, and interact with Bluetooth devices.</p>
+<div class="tool-grid">
+  <span class="tool-tag">wifi_get_info</span>
+  <span class="tool-tag">wifi_scan</span>
+  <span class="tool-tag">wifi_list_networks</span>
+  <span class="tool-tag">bluetooth_list_devices</span>
+  <span class="tool-tag">bluetooth_get_state</span>
+</div>
+<div class="note">
+  <strong>Permissions required:</strong> Wi-Fi tools need <code>ACCESS_FINE_LOCATION</code> (Android requirement to read SSID). Bluetooth tools need <code>BLUETOOTH_CONNECT</code> / <code>BLUETOOTH_SCAN</code> on API 31+.
+</div>
+
+<h2 id="companion">Companion Mode</h2>
+<p>A separate, warmer conversation mode with its own persona, episodic memory, and safety infrastructure. Accessible from Hub → Companion.</p>
+<h3>Features</h3>
+<ul>
+  <li><strong>Persona</strong> — configurable name and personality via <code>PersonaManager</code>.</li>
+  <li><strong>Episodic memory</strong> — <code>EpisodicMemoryStore</code> records conversation summaries with timestamps and topics.</li>
+  <li><strong>Proactive check-ins</strong> — <code>CheckInScheduler</code> can send morning check-ins and follow-ups (opt-in, configurable quiet hours).</li>
+  <li><strong>Crisis-aware responses</strong> — <code>EmotionalContext</code> detects distress signals and surfaces region-aware crisis lines. Covered regions: US (988), CA, GB (116 123 Samaritans), IE, AU, NZ, ZA, IN, DE, FR, plus a global fallback (findahelpline.com) and a custom slot.</li>
+  <li><strong>Dependency monitoring</strong> — <code>DependencyMonitor</code> tracks session counts and wall-clock duration per day. Fires a gentle nudge notification at most once per 30 days if usage exceeds configurable thresholds (default: 3 h/day for 14 consecutive days, or 50 sessions/week).</li>
+  <li><strong>Safety filter</strong> — <code>SafetyFilter</code> post-hoc scans every reply for romantic/sexual content and dependency-reinforcing language. Blocked replies are replaced with warm, safe alternatives.</li>
+  <li><strong>Real-world nudges</strong> — opt-in weekly prompt to engage with the real world.</li>
+  <li><strong>Daily token budget</strong> — default 50,000 tokens/day, resets at midnight.</li>
+  <li><strong>Memory transparency</strong> — Companion Memory screen lists every stored episode and fact with individual delete buttons and a two-step "Forget Everything" wipe.</li>
+  <li><strong>Relationship state</strong> — <code>RelationshipState</code> tracks interaction history to personalise responses over time.</li>
+</ul>
+<div class="warning">
+  <strong>Local only.</strong> All Companion data is stored on-device. Nothing is sent to our servers. See <a href="privacy.html">Privacy Policy</a>.
+</div>
+
+<h2 id="git">Git Integration</h2>
+<p>First-class git tools backed by JGit 5.13.3. PATs are stored in the encrypted memory store. HTTPS only (no SSH).</p>
+<div class="tool-grid">
+  <span class="tool-tag">git_init</span>
+  <span class="tool-tag">git_status</span>
+  <span class="tool-tag">git_add</span>
+  <span class="tool-tag">git_commit</span>
+  <span class="tool-tag">git_log</span>
+  <span class="tool-tag">git_diff</span>
+  <span class="tool-tag">git_branch</span>
+  <span class="tool-tag">git_checkout</span>
+  <span class="tool-tag">git_remote_set</span>
+  <span class="tool-tag">git_clone</span>
+  <span class="tool-tag">git_push</span>
+  <span class="tool-tag">git_pull</span>
+</div>
+<p><code>git_push</code>, <code>git_pull</code>, and <code>git_clone</code> have a 60–120 s timeout and require confirmation by default.</p>
+
+<h2 id="http">HTTP &amp; Search</h2>
+<div class="tool-grid">
+  <span class="tool-tag">http_fetch</span>
+  <span class="tool-tag">curl_exec</span>
+  <span class="tool-tag">ddg_search</span>
+  <span class="tool-tag">composio_call</span>
+</div>
+<p><code>http_fetch</code> and <code>curl_exec</code> make direct HTTP requests (timeout: 30 s). <code>ddg_search</code> queries DuckDuckGo (timeout: 20 s). <code>composio_call</code> routes to a configured Composio endpoint.</p>
+
+<h2 id="notifications">Notifications</h2>
+<p>The agent can post notifications to the device notification tray and attach action buttons that trigger tool calls when tapped.</p>
+<div class="tool-grid">
+  <span class="tool-tag">notify_send</span>
+</div>
+<p>Notification channels: agent notifications, wellbeing (Companion dependency nudges), cron/alarm alerts.</p>
+
+<h2 id="vision">Vision</h2>
+<p>The agent can analyse images via <code>VisionTool</code> using a configured vision-capable model (e.g. GPT-4o, Gemini). Vision routing is configurable separately from the main model in Settings → Model Routing.</p>
+<div class="tool-grid">
+  <span class="tool-tag">image_analyze</span>
+  <span class="tool-tag">web_screenshot</span>
+  <span class="tool-tag">browser_screenshot_region</span>
+</div>
+
+<h2 id="projects">Projects &amp; Local Server</h2>
+<p>Projects are named workspaces with their own Python runner and health monitor. A built-in HTTP server (<code>ForgeHttpServer</code>) can serve project files over the local network.</p>
+<div class="tool-grid">
+  <span class="tool-tag">project_serve</span>
+  <span class="tool-tag">project_unserve</span>
+  <span class="tool-tag">project_serve_list</span>
+  <span class="tool-tag">server_start</span>
+  <span class="tool-tag">server_stop</span>
+  <span class="tool-tag">server_status</span>
+  <span class="tool-tag">server_rotate_key</span>
+</div>
+
+<h2 id="external-api">External API</h2>
+<p>Other Android apps can call Forge OS as an on-device LLM service via a permission-gated AIDL interface. The interface is defined in <code>IForgeOsService.aidl</code> under <code>app/src/main/aidl/com/forge/os/api/</code>. External callers are registered in <code>ExternalCallerRegistry</code> and subject to per-caller rate limits (default: 30 calls/min, 50,000 tokens/day).</p>
+<p>The external API is disabled by default. Enable in Settings → Advanced → External API.</p>
+
+<h2 id="cost-meter">Cost Meter</h2>
+<p>Live token and USD spend tracking per call, per session, and lifetime via <code>CostMeter</code> and <code>ApiCallLog</code>. Visible in the Hub screen (Cost tab).</p>
+<p>Optional <strong>Compact Mode</strong>: limits context to 8 messages and 512 tokens per request, routes to a cheaper model (default: Groq llama-3.3-70b-versatile). Enable in Settings → Model Routing → Compact Mode.</p>
+<p>Optional <strong>Daily budget</strong>: set a USD ceiling in Settings → Model Routing → Cost Budget. When exceeded, the agent switches to the configured eco model.</p>
+
+<h2 id="security">Permissions &amp; Security</h2>
+<h3>Per-tool permissions</h3>
+<p>Every tool call is checked by <code>PermissionManager</code> before dispatch. Permissions are configured per-tool in Settings → Tools. The audit log records every call.</p>
+<h3>Named secrets</h3>
+<p>Store API keys and tokens as named secrets via <code>NamedSecretRegistry</code>. The agent can list secret names and request their use, but never sees raw values.</p>
+<div class="tool-grid">
+  <span class="tool-tag">secret_list</span>
+  <span class="tool-tag">secret_request</span>
+</div>
+<h3>Agent control plane</h3>
+<p>The control plane (<code>AgentControlPlane</code>) lets the agent inspect and modify its own permissions within the bounds set by the user. The user can lock the agent out of all permission changes via Settings → Advanced → Lock agent out.</p>
+<div class="tool-grid">
+  <span class="tool-tag">control_list</span>
+  <span class="tool-tag">control_describe</span>
+  <span class="tool-tag">control_set</span>
+  <span class="tool-tag">control_grant</span>
+  <span class="tool-tag">control_revoke</span>
+  <span class="tool-tag">control_status</span>
+</div>
+
+<h2 id="config">Config System</h2>
+<p>All settings are stored in <code>ForgeConfig</code> (serialised JSON). The agent can read and write config values within the bounds of the permission policy.</p>
+<div class="tool-grid">
+  <span class="tool-tag">config_read</span>
+  <span class="tool-tag">config_write</span>
+  <span class="tool-tag">config_rollback</span>
+</div>
+<p>Key config sections: <code>agentIdentity</code>, <code>behaviorRules</code>, <code>toolRegistry</code>, <code>modelRouting</code>, <code>sandboxLimits</code>, <code>cronSettings</code>, <code>pluginSettings</code>, <code>memorySettings</code>, <code>delegationRules</code>, <code>friendMode</code>, <code>permissions</code>, <code>costBudget</code>.</p>
+<p>The agent's name, personality, default greeting, language, and timezone are all configurable under <code>agentIdentity</code>. Max iterations per turn defaults to 15.</p>
+
+<h3>Diagnostics</h3>
+<div class="tool-grid">
+  <span class="tool-tag">heartbeat_check</span>
+  <span class="tool-tag">doctor_check</span>
+  <span class="tool-tag">doctor_fix</span>
+  <span class="tool-tag">app_describe</span>
+  <span class="tool-tag">request_user_input</span>
+  <span class="tool-tag">model_cache_refresh</span>
+</div>
+<p><code>doctor_check</code> runs a self-diagnostic and <code>doctor_fix</code> attempts automatic remediation. <code>request_user_input</code> pauses the agent loop and waits for a human response mid-task.</p>
+
+</main>
+</div>
+<script>
+document.querySelectorAll('.sidebar nav a[href^="#"]').forEach(link => {
+  link.addEventListener('click', function() {
+    document.querySelectorAll('.sidebar nav a').forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+function toggleTheme(){
+  const root=document.documentElement;
+  const next=root.dataset.theme==='light'?'dark':'light';
+  root.dataset.theme=next; root.style.colorScheme=next; localStorage.setItem('oc-theme',next);
+}
+(()=>{ const btn=document.querySelector('.theme-toggle'); if(btn) btn.addEventListener('click',toggleTheme); })();
+</script>
+</body>
+</html>

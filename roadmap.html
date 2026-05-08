@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Forge OS Roadmap - Upcoming features and development timeline">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="assets/forge_logo.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<title>Roadmap — Forge OS</title>
+<script>(()=>{const key='oc-theme';const saved=localStorage.getItem(key);const theme=saved==='light'||saved==='dark'?saved:'dark';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme})();</script>
+<link rel="stylesheet" href="assets/Layout.CwMxruYy.css">
+<style>
+body { font-family: 'Satoshi', sans-serif; line-height: 1.6; color: var(--text-primary); }
+.container { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem; }
+.header { text-align: center; padding: 2rem 0; }
+.header h1 { font-family: 'Clash Display', sans-serif; font-size: 2.5rem; margin-bottom: 0.5rem; }
+.header .back-link { display: inline-block; margin-top: 1rem; color: var(--accent); text-decoration: none; }
+.header .back-link:hover { text-decoration: underline; }
+.timeline { position: relative; padding: 2rem 0; }
+.timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: var(--accent); transform: translateX(-50%); }
+.timeline-item { display: flex; margin-bottom: 3rem; position: relative; }
+.timeline-item:nth-child(odd) { flex-direction: row; }
+.timeline-item:nth-child(even) { flex-direction: row-reverse; }
+.timeline-content { width: 45%; background: var(--card-bg); padding: 1.5rem; border-radius: 12px; box-shadow: var(--card-shadow); }
+.timeline-marker { position: absolute; left: 50%; top: 0; width: 20px; height: 20px; background: var(--accent); border: 4px solid var(--primary-bg); border-radius: 50%; transform: translateX(-50%); z-index: 1; }
+.timeline-content h3 { font-family: 'Clash Display', sans-serif; font-size: 1.5rem; margin-bottom: 0.5rem; }
+.timeline-content .status { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; }
+.status.completed { background: #10b981; color: white; }
+.status.in-progress { background: #f59e0b; color: white; }
+.status.planned { background: #6366f1; color: white; }
+.status.future { background: var(--secondary-bg); color: var(--text-secondary); }
+.timeline-content ul { margin-left: 1.5rem; margin-top: 0.5rem; }
+.timeline-content li { margin-bottom: 0.5rem; color: var(--text-secondary); }
+.vote-section { background: var(--card-bg); padding: 2rem; border-radius: 12px; margin-top: 3rem; text-align: center; }
+.vote-section h2 { font-family: 'Clash Display', sans-serif; font-size: 2rem; margin-bottom: 1rem; }
+.vote-button { display: inline-block; background: var(--accent); color: white; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 1rem; }
+.vote-button:hover { background: var(--accent-dark); }
+.theme-toggle { position: fixed; top: 1rem; right: 1rem; background: var(--card-bg); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; z-index: 1000; }
+@media(max-width: 768px) {
+  .timeline::before { left: 20px; }
+  .timeline-item { flex-direction: column !important; padding-left: 50px; }
+  .timeline-content { width: 100%; }
+  .timeline-marker { left: 20px; }
+}
+</style>
+</head>
+<body>
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">🌓</button>
+
+<div class="container">
+  <header class="header">
+    <h1>Forge OS Roadmap</h1>
+    <p>Our vision for the future of Android productivity</p>
+    <a href="index.html" class="back-link">← Back to Home</a>
+  </header>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-marker"></div>
+      <div class="timeline-content">
+        <span class="status completed">✓ Shipped</span>
+        <h3>v1.0.0-alpha — All milestones complete</h3>
+        <ul>
+          <li>Three-tier memory system with semantic embeddings</li>
+          <li>Python 3.11 runtime (Chaquopy) with sandboxed execution</li>
+          <li>Sandboxed file workspace with snapshots and diffs</li>
+          <li>Headless browser + on-screen browser with shared cookies</li>
+          <li>Cron jobs and alarms with plain-English scheduling</li>
+          <li>Plugin system (.fp / .zip) — install or generate mid-loop</li>
+          <li>MCP client — connect to Model Context Protocol servers</li>
+          <li>Sub-agents — spawn and delegate in parallel</li>
+          <li>Companion mode with safety rails (Phase O complete)</li>
+          <li>Snapshots — time-travel your workspace</li>
+          <li>External AIDL API for other Android apps</li>
+          <li>Git integration (JGit) — init, commit, push, pull, clone</li>
+          <li>Cost meter — token and USD spend per call, session, lifetime</li>
+          <li>Global fallback chain — automatic provider failover</li>
+          <li>Light / dark theme, Jetpack Compose UI</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-marker"></div>
+      <div class="timeline-content">
+        <span class="status in-progress">⚡ Up next</span>
+        <h3>Post-alpha — Stability &amp; polish</h3>
+        <ul>
+          <li>Bug fixes and edge-case hardening from early user feedback</li>
+          <li>Performance improvements on mid-range devices</li>
+          <li>Expanded plugin documentation and examples</li>
+          <li>Google Play Store submission</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-marker"></div>
+      <div class="timeline-content">
+        <span class="status planned">📋 Considering</span>
+        <h3>Future — Based on user feedback</h3>
+        <ul>
+          <li>Broader device support (lower-end hardware)</li>
+          <li>Additional LLM provider integrations</li>
+          <li>Richer plugin ecosystem and community tooling</li>
+          <li>Anything the community asks for and we can verify is useful</li>
+        </ul>
+        <p style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.75rem;">
+          Nothing here is committed. These are directions we're thinking about, not promises.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <section class="vote-section">
+    <h2>Help Shape the Future</h2>
+    <p>Your feedback matters! Vote on features you'd like to see next or suggest new ideas.</p>
+    <a href="https://github.com/thekingsmediastudio/forge-os/discussions/categories/feature-requests" target="_blank" class="vote-button">Vote on Features</a>
+    <a href="https://github.com/thekingsmediastudio/forge-os/discussions/new?category=ideas" target="_blank" class="vote-button">Suggest an Idea</a>
+  </section>
+</div>
+
+<script>
+function toggleTheme(){
+  const root=document.documentElement;
+  const next=root.dataset.theme==='light'?'dark':'light';
+  root.dataset.theme=next; root.style.colorScheme=next; localStorage.setItem('oc-theme',next);
+}
+(() => {
+  const btn=document.querySelector('.theme-toggle');
+  if(btn) btn.addEventListener('click',toggleTheme);
+})();
+</script>
+</body>
+</html>

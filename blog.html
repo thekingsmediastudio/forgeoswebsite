@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Forge OS Blog — Building an on-device AI agent for Android. Founder notes, technical deep-dives, and honest product updates.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="assets/forge_logo.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/forge_favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<title>Blog — Forge OS</title>
+<script>(()=>{const key='oc-theme';const saved=localStorage.getItem(key);const theme=saved==='light'||saved==='dark'?saved:'dark';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme})();</script>
+<link rel="stylesheet" href="assets/Layout.CwMxruYy.css">
+<style>
+body { font-family: 'Satoshi', sans-serif; line-height: 1.6; color: var(--text-primary); }
+.container { max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem; }
+.page-header { margin-bottom: 3rem; }
+.page-header h1 { font-family: 'Clash Display', sans-serif; font-size: 2.8rem; margin-bottom: 0.5rem; }
+.page-header p { color: var(--text-secondary); font-size: 1.1rem; }
+.back-link { display: inline-block; margin-bottom: 2rem; color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+.back-link:hover { text-decoration: underline; }
+.post-list { display: flex; flex-direction: column; gap: 2.5rem; }
+.post-card { border-bottom: 1px solid var(--border-color); padding-bottom: 2.5rem; }
+.post-card:last-child { border-bottom: none; }
+.post-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; }
+.post-date { color: var(--text-secondary); font-size: 0.9rem; }
+.post-tag { font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; }
+.post-tag.founder  { background: #7c3aed; }
+.post-tag.technical { background: #0369a1; }
+.post-tag.product  { background: #065f46; }
+.post-card h2 { font-family: 'Clash Display', sans-serif; font-size: 1.7rem; margin-bottom: 0.75rem; line-height: 1.3; }
+.post-card h2 a { color: var(--text-primary); text-decoration: none; }
+.post-card h2 a:hover { color: var(--accent); }
+.post-card .excerpt { color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem; }
+.read-more { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+.read-more:hover { text-decoration: underline; }
+.theme-toggle { position: fixed; top: 1rem; right: 1rem; background: var(--card-bg); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; z-index: 1000; }
+</style>
+</head>
+<body>
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">🌓</button>
+
+<div class="container">
+  <a href="index.html" class="back-link">← Back to Home</a>
+
+  <header class="page-header">
+    <h1>Blog</h1>
+    <p>Building an on-device AI agent for Android — founder notes, technical deep-dives, and honest product updates.</p>
+  </header>
+
+  <div class="post-list">
+
+    <article class="post-card">
+      <div class="post-meta">
+        <span class="post-date">May 6, 2026</span>
+        <span class="post-tag founder">Founder</span>
+      </div>
+      <h2><a href="blog/why-we-built-forge-os.html">Why We Built an AI Agent That Lives on Your Phone</a></h2>
+      <p class="excerpt">Every AI assistant I tried was a chat window that forgot everything the moment I closed it. No memory, no files, no ability to actually run code or schedule work. I wanted an agent that could keep going while I slept — so I built one. Here's the thinking behind Forge OS and why on-device matters more than people realize.</p>
+      <a href="blog/why-we-built-forge-os.html" class="read-more">Read more →</a>
+    </article>
+
+    <article class="post-card">
+      <div class="post-meta">
+        <span class="post-date">April 28, 2026</span>
+        <span class="post-tag technical">Technical</span>
+      </div>
+      <h2><a href="blog/three-tier-memory.html">How We Built a Three-Tier Memory System for a Mobile AI Agent</a></h2>
+      <p class="excerpt">Getting an LLM to remember things across sessions on a phone — without a server — is harder than it sounds. We ended up with three distinct tiers: working memory for the current turn, daily memory for today's context, and long-term semantic embeddings for everything worth keeping. This post walks through the architecture and the tradeoffs we made.</p>
+      <a href="blog/three-tier-memory.html" class="read-more">Read more →</a>
+    </article>
+
+    <article class="post-card">
+      <div class="post-meta">
+        <span class="post-date">April 18, 2026</span>
+        <span class="post-tag product">Product</span>
+      </div>
+      <h2><a href="blog/companion-mode.html">Why We Built Safety Into Companion Mode Before Shipping</a></h2>
+      <p class="excerpt">Forge OS includes a Companion mode for everyday conversation. Before shipping it, we had to decide what kind of product we were building. This is the reasoning behind the crisis lines, dependency monitoring, safety filter, memory transparency screen, and the no-dark-patterns audit — and an honest admission of what we still don't know.</p>
+      <a href="blog/companion-mode.html" class="read-more">Read more →</a>
+    </article>
+
+    <article class="post-card">
+      <div class="post-meta">
+        <span class="post-date">April 8, 2026</span>
+        <span class="post-tag technical">Technical</span>
+      </div>
+      <h2><a href="blog/python-on-android.html">Running Python 3.11 on Android Without a Server</a></h2>
+      <p class="excerpt">Chaquopy makes it possible, but there are real constraints: no native extensions that require compilation, a limited subset of the stdlib, and a 64-bit ARM-only target. We also needed AST-based import filtering so the agent can't import things it shouldn't. Here's exactly how we set it up, what packages we ship, and where the edges are.</p>
+      <a href="blog/python-on-android.html" class="read-more">Read more →</a>
+    </article>
+
+  </div>
+</div>
+
+<script>
+function toggleTheme(){
+  const root=document.documentElement;
+  const next=root.dataset.theme==='light'?'dark':'light';
+  root.dataset.theme=next; root.style.colorScheme=next; localStorage.setItem('oc-theme',next);
+}
+(()=>{ const btn=document.querySelector('.theme-toggle'); if(btn) btn.addEventListener('click',toggleTheme); })();
+</script>
+</body>
+</html>

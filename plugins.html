@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Forge OS Plugins — Extend the agent's tool surface with Python plugins (.fp / .zip).">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="assets/forge_logo.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<title>Plugins — Forge OS</title>
+<script>(()=>{const key='oc-theme';const saved=localStorage.getItem(key);const theme=saved==='light'||saved==='dark'?saved:'dark';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme})();</script>
+<link rel="stylesheet" href="assets/Layout.CwMxruYy.css">
+<style>
+body { font-family: 'Satoshi', sans-serif; line-height: 1.6; color: var(--text-primary); }
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+.page-header { text-align: center; padding: 2rem 0 3rem; }
+.page-header h1 { font-family: 'Clash Display', sans-serif; font-size: 2.5rem; margin-bottom: 0.5rem; }
+.page-header p { color: var(--text-secondary); font-size: 1.1rem; }
+.back-link { display: inline-block; margin-bottom: 2rem; color: var(--accent); text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
+.empty-state { text-align: center; padding: 4rem 2rem; background: var(--card-bg); border-radius: 12px; margin-bottom: 3rem; }
+.empty-state p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 0.75rem; }
+.empty-state a { color: var(--accent); }
+.how-section { margin-bottom: 3rem; }
+.how-section h2 { font-family: 'Clash Display', sans-serif; font-size: 1.8rem; margin-bottom: 1.5rem; }
+.how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.how-card { background: var(--card-bg); padding: 1.5rem; border-radius: 10px; }
+.how-card h3 { font-family: 'Clash Display', sans-serif; font-size: 1.1rem; margin-bottom: 0.5rem; }
+.how-card p { color: var(--text-secondary); font-size: 0.95rem; margin: 0; }
+.how-card code { background: var(--code-bg); color: var(--code-fg); padding: 0.1rem 0.35rem; border-radius: 3px; font-family: monospace; font-size: 0.88em; }
+.theme-toggle { position: fixed; top: 1rem; right: 1rem; background: var(--card-bg); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; z-index: 1000; }
+</style>
+</head>
+<body>
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">🌓</button>
+
+<div class="container">
+  <a href="index.html" class="back-link">← Back to Home</a>
+
+  <header class="page-header">
+    <h1>Plugins</h1>
+    <p>Extend the agent's tool surface with Python plugins.</p>
+  </header>
+
+  <div class="empty-state">
+    <p>No published plugins yet — Forge OS is in alpha.</p>
+    <p>Built a plugin? Open a pull request or file an issue on
+      <a href="https://github.com/thekingsmediastudio/forge-os" target="_blank">GitHub</a>
+      and we'll feature it here.
+    </p>
+  </div>
+
+  <section class="how-section">
+    <h2>How Plugins Work</h2>
+    <div class="how-grid">
+
+      <div class="how-card">
+        <h3>Install from file</h3>
+        <p>Drop a <code>.fp</code> or <code>.zip</code> file onto the Plugins screen. The new tool is callable on the next agent turn.</p>
+      </div>
+
+      <div class="how-card">
+        <h3>Generate mid-loop</h3>
+        <p>The agent can call <code>plugin_create</code> with an id, name, description, tool name, and Python code. No restart needed.</p>
+      </div>
+
+      <div class="how-card">
+        <h3>Survive upgrades</h3>
+        <p>Plugins are exported and re-imported across app upgrades. Your custom tools don't disappear when you update.</p>
+      </div>
+
+      <div class="how-card">
+        <h3>Sandboxed execution</h3>
+        <p>Plugin code runs inside the same sandboxed Python 3.11 runtime as regular scripts — same timeouts, same import filtering, same security policy.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="how-section">
+    <h2>Plugin Structure</h2>
+    <p style="color:var(--text-secondary);margin-bottom:1rem;">A minimal plugin needs an id, a name, a description, a tool name, a tool description, and a Python function body. The agent calls the tool by name and receives the return value as a string.</p>
+    <p style="color:var(--text-secondary);">
+      See the <a href="docs.html#plugins">plugin documentation</a> or the
+      <a href="https://github.com/thekingsmediastudio/forge-os" target="_blank">GitHub repo</a> for full details.
+    </p>
+  </section>
+
+</div>
+
+<script>
+function toggleTheme(){
+  const root=document.documentElement;
+  const next=root.dataset.theme==='light'?'dark':'light';
+  root.dataset.theme=next; root.style.colorScheme=next; localStorage.setItem('oc-theme',next);
+}
+(()=>{ const btn=document.querySelector('.theme-toggle'); if(btn) btn.addEventListener('click',toggleTheme); })();
+</script>
+</body>
+</html>

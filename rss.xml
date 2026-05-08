@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Forge OS Blog</title>
+    <link>https://forgeos.ai/</link>
+    <description>Latest updates, tutorials, and news from Forge OS</description>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 06 May 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://forgeos.ai/rss.xml" rel="self" type="application/rss+xml"/>
+    
+    <item>
+      <title>Forge OS Had a Rough Week</title>
+      <link>https://forgeos.ai/blog/forgeos-rough-week.html</link>
+      <description>We faced some challenges this week with the latest release, but we're back stronger. Here's what happened and how we fixed it.</description>
+      <pubDate>Thu, 01 May 2026 00:00:00 GMT</pubDate>
+      <guid>https://forgeos.ai/blog/forgeos-rough-week.html</guid>
+    </item>
+    
+    <item>
+      <title>Introducing the Plugin System</title>
+      <link>https://forgeos.ai/blog/plugin-system-launch.html</link>
+      <description>Extend Forge OS with custom plugins. Learn how to build your first plugin and share it with the community.</description>
+      <pubDate>Thu, 24 Apr 2026 00:00:00 GMT</pubDate>
+      <guid>https://forgeos.ai/blog/plugin-system-launch.html</guid>
+    </item>
+    
+    <item>
+      <title>Mastering Telegram Automation</title>
+      <link>https://forgeos.ai/blog/telegram-automation-guide.html</link>
+      <description>A comprehensive guide to automating your Telegram workflows with Forge OS. From simple replies to complex message filtering.</description>
+      <pubDate>Mon, 15 Apr 2026 00:00:00 GMT</pubDate>
+      <guid>https://forgeos.ai/blog/telegram-automation-guide.html</guid>
+    </item>
+    
+    <item>
+      <title>Running Python Scripts on Android</title>
+      <link>https://forgeos.ai/blog/python-on-android.html</link>
+      <description>Discover the power of Python automation on your Android device. Tips, tricks, and best practices.</description>
+      <pubDate>Tue, 08 Apr 2026 00:00:00 GMT</pubDate>
+      <guid>https://forgeos.ai/blog/python-on-android.html</guid>
+    </item>
+    
+    <item>
+      <title>Forge OS v2.0 Released</title>
+      <link>https://forgeos.ai/blog/forge-os-v2-release.html</link>
+      <description>Major update brings improved performance, new features, and better battery optimization. See what's new.</description>
+      <pubDate>Sat, 30 Mar 2026 00:00:00 GMT</pubDate>
+      <guid>https://forgeos.ai/blog/forge-os-v2-release.html</guid>
+    </item>
+    
+    <item>
+      <title>Community Showcase: Amazing Automations</title>
+      <link>https://forgeos.ai/blog/community-showcase.html</link>
+      <description>Check out the most creative automations built by our community. Get inspired and share your own!</description>
+      <pubDate>Wed, 20 Mar 2026 00:00:00 GMT</pubDate>
+      <guid>https://forgeos.ai/blog/community-showcase.html</guid>
+    </item>
+  </channel>
+</rss>
